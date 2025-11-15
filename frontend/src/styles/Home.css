@@ -1,0 +1,13 @@
+main .leaflet-container {
+    height: calc(60vh - 56px);
+}
+
+@media (min-width: 1024px) {
+    main .leaflet-container {
+        height: calc(100vh - 68.5px);
+    }
+    main {
+        overflow: hidden;
+        height: calc(100vh - 68.5px);
+    }
+}

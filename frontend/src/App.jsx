@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { AppRoutes } from './routes/AppRoutes'
 import { Header } from './components/Header'
-function App() {
+
+
+export default function App() {
   const [count, setCount] = useState(0)
 
   return (
@@ -11,5 +13,3 @@ function App() {
     </>
   )
 }
-
-export default App
