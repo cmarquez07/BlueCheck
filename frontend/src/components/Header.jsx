@@ -7,24 +7,28 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { Logo } from '../components/Logo'
 import '../styles/Header.css'
-import { Link } from 'react-router-dom'
-
-const pages = [
-  { name: 'Inicio', path: '/' },
-  { name: 'Iniciar sesión', path: '/login' },
-  { name: 'Contacto', path: '/contact' },
-  { name: 'Uso de información', path: '/data-usage' },
-];
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import toast from 'react-hot-toast';
 
 export const Header = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn, logout } = useAuth();
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+  const pages = [
+    { name: 'Inicio', path: '/' },
+    isLoggedIn
+      ? { name: 'Cerrar sesión', action: 'logout' }
+      : { name: 'Iniciar sesión', path: '/login' },
+    { name: 'Contacto', path: '/contact' },
+    { name: 'Uso de información', path: '/data-usage' },
+  ];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,6 +37,12 @@ export const Header = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Se ha cerrado la sesión correctamente");
+    navigate("/");
+  }
 
   return (
     <AppBar position='static' sx={{ backgroundColor: '#002C66' }}>
@@ -43,13 +53,23 @@ export const Header = () => {
           </Link>
           <Box sx={{display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button
-                key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                <Link to={ page.path }>{page.name}</Link>
-              </Button>
+              page.action === "logout" ? (
+                <Button
+                  key={page.name}
+                  onClick={() => {handleCloseNavMenu(); handleLogout();}}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page.name}
+                </Button>
+              ) : (
+                <Button
+                  key={page.name}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  <Link to={page.path}>{page.name}</Link>
+                </Button>
+              )
             ))}
           </Box>
           <Box sx={{display: { xs: 'flex', md: 'none' } }}>
@@ -80,9 +100,15 @@ export const Header = () => {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}><Link to={ page.path }>{page.name}</Link></Typography>
-                </MenuItem>
+                page.action === "logout" ? (
+                  <MenuItem key={page.name} onClick={() => {handleCloseNavMenu(); handleLogout();}}>
+                    <Typography sx={{ textAlign: 'center' }}>{page.name}</Typography>
+                  </MenuItem>
+                ) : (
+                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                    <Typography sx={{ textAlign: 'center' }}><Link to={page.path}>{page.name}</Link></Typography>
+                  </MenuItem>
+                )
               ))}
             </Menu>
           </Box>

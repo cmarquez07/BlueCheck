@@ -15,3 +15,7 @@ export function useIsMobile() {
 
     return isMobile;
 }
+
+export const isLoggedIn = () => {
+  return !!localStorage.getItem("token");
+};

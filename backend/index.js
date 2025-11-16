@@ -3,6 +3,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import pkg from "pg";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -24,23 +26,97 @@ const pool = new Pool({
   database: process.env.POSTGRES_DB
 });
 
-// Ruta de prueba
-app.get("/api", (req, res) => {
-  res.json({ message: "✅ BlueCheck backend funcionando correctamente" });
-});
 
-// Ruta para probar la conexión a la base de datos
-app.get("/api/db-test", async (req, res) => {
-  console.log(process.env.PORT);
-  console.log(process.env.DATABASE_URL);
+// User register
+app.post('/api/register', async (req, res) => {
+  const { email, password, username, name } = req.body;
+
+  if (!email || !password || !username) {
+    return res.status(400).json({ message: 'Faltan campos obligatorios' });
+  }
+  
   try {
-    const result = await pool.query("SELECT NOW()");
-    res.json({ message: "Conexión exitosa a la base de datos", result: result.rows });
+    const saltRounds = 10;
+    const password_hash = await bcrypt.hash(password, saltRounds);
+    
+    const result = await pool.query(
+      `INSERT INTO users (email, password, username, name)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, email, username, name, created_at`,
+      [email, password_hash, username, name]
+    );
+
+    return res.status(201).json({ user: result.rows[0] });
+
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Error al conectar con la base de datos" });
+    
+    if (err.code === "23505") {
+      if (err.constraint === "users_email_key") {
+        return res.status(400).json({ message: "🪼El correo electrónico ya está registrado🪼"});
+      }
+      
+      if (err.constraint === "users_username_key") {
+        return res.status(400).json({ message: "🪼El nombre de usuario ya está registrado🪼"});
+      }
+    }
+    
+    return res.status(500).json({ message: "🚩Error del servidor🚩"});
   }
 });
+
+// User Login
+app.post('/api/login', async (req, res) => {
+  const { identifier, password } = req.body; // identifier could be username or email
+
+  if (!identifier || !password) {
+    return res.status(400).json({ message: 'Se deben rellenar todos los campos' });
+  }
+
+  try {
+    // Check if the identifier is an email
+    const isEmail = identifier.includes("@");
+
+    const query = isEmail
+    ? "SELECT * FROM users WHERE email = $1"
+    : "SELECT * FROM users WHERE username = $1";
+
+    const result = await pool.query(query, [identifier]);
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: "🪼Usuario o contraseña incorrectos🪼"})
+    }
+    
+    const user = result.rows[0];
+
+    // Check password
+    const ok = await bcrypt.compare(password, user.password);
+    if (!ok) {
+      return res.status(401).json({ message: "🪼Usuario o contraseña incorrectos🪼"})
+    }
+
+    // Create token
+    const token = jwt.sign(
+      { id: user.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    return res.json({
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        name: user.name
+      },
+      token
+    });
+
+  } catch (err) {
+        return res.status(500).json({ message: "🚩Error del servidor🚩"});
+  }
+})
+
+
 
 // Iniciar servidor
 app.listen(PORT, () => {
