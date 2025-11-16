@@ -10,4 +10,7 @@ main .leaflet-container {
         overflow: hidden;
         height: calc(100vh - 68.5px);
     }
+    main #beach-list {
+        height: calc(100vh - 68.5px);
+    }
 }

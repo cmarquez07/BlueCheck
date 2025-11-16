@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AppRoutes } from './routes/AppRoutes'
 import { Header } from './components/Header'
+import { Toaster } from 'react-hot-toast';
 
 
 export default function App() {
@@ -9,7 +10,10 @@ export default function App() {
   return (
     <>
       <Header />
-      <AppRoutes />
+      <main>
+        <AppRoutes />
+      </main>
+      <Toaster position="bottom-center" />
     </>
   )
 }

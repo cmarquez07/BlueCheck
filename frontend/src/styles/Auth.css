@@ -1,0 +1,8 @@
+main #login-form,
+main #register-form {
+    height: calc(100vh - 56px);
+}
+
+main #branding img {
+    width: 130px;
+}
