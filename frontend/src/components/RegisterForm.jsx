@@ -78,7 +78,7 @@ export const RegisterForm = () => {
             return;
         }
 
-        const registerPromise = fetch(`${import.meta.env.VITE_API_URL}/api/register`, {
+        const registerPromise = fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -106,7 +106,7 @@ export const RegisterForm = () => {
     }
 
     return (
-        <div id="register-form" className="flex flex-col justify-center items-center">
+        <div id="register-form" className="flex flex-col justify-center items-center mt-[40px]">
             <div id="branding" className="flex flex-col items-center">
                 <Logo />
                 <h1 className="text-4xl text-blue-500 font-bold text-kaushan">BlueCheck</h1>

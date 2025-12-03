@@ -60,7 +60,7 @@ export const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const loginPromise = fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
+        const loginPromise = fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(form)
@@ -70,7 +70,7 @@ export const LoginForm = () => {
                 throw new Error(data.message || "🚩Error en el inicio de sesión🚩");
             }
 
-            login(data.token);
+            login(data.token, data.user.id);
             return data;
         });
 
@@ -86,7 +86,7 @@ export const LoginForm = () => {
 
     
     return (
-        <div id="register-form" className="flex flex-col justify-center items-center">
+        <div id="login-form" className="flex flex-col justify-center items-center mt-[40px]">
             <div id="branding" className="flex flex-col items-center">
                 <Logo />
                 <h1 className="text-4xl text-blue-500 font-bold text-kaushan">BlueCheck</h1>
