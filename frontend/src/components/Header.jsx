@@ -66,8 +66,10 @@ export const Header = () => {
                   key={page.name}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: 'white', display: 'block' }}
+                  component={Link}
+                  to={page.path}
                 >
-                  <Link to={page.path}>{page.name}</Link>
+                  {page.name}
                 </Button>
               )
             ))}
@@ -105,8 +107,8 @@ export const Header = () => {
                     <Typography sx={{ textAlign: 'center' }}>{page.name}</Typography>
                   </MenuItem>
                 ) : (
-                  <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                    <Typography sx={{ textAlign: 'center' }}><Link to={page.path}>{page.name}</Link></Typography>
+                  <MenuItem key={page.name} onClick={handleCloseNavMenu} component={Link} to={page.path}>
+                    <Typography sx={{ textAlign: 'center' }}>{page.name}</Typography>
                   </MenuItem>
                 )
               ))}
