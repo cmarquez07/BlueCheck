@@ -58,6 +58,9 @@ function direction(degrees) {
 export const BeachDetail = () => {
     const { id } = useParams();
     const [beach, setBeach] = useState([]);
+    const [reports, setReports] = useState([]);
+    
+    // Estado para el componente de las Tabs
     const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
@@ -71,13 +74,31 @@ export const BeachDetail = () => {
             setBeach(data);
         };
 
+        const fetchReports = async () => {
+            const response = await fetch(`http://localhost/api/get-beach-reports/${id}`);
+            const data = await response.json();
+            setReports(data);
+        };
+
         fetchBeach();
+        fetchReports();
     }, [id]);
 
-    // // Debugging, ELIMINAR CUANDO ESTE LISTO
-    // useEffect(() => {
-    //     console.log("Beach actualizado:", beach);
-    // }, [beach]);
+    const flagBadge = (color) => {
+        const map = {
+            Verde: "bg-green-500",
+            Amarilla: "bg-yellow-400",
+            Roja: "bg-red-500",
+            default: "bg-gray-400"
+        };
+
+        return map[color] || map.default;
+    }
+
+    // Debugging, ELIMINAR CUANDO ESTE LISTO
+    useEffect(() => {
+        console.log("Reportes actualizado:", reports);
+    }, [reports]);
     return (
         <>
             <div id='beach-header' 
@@ -91,7 +112,7 @@ export const BeachDetail = () => {
                     ),
                  url(https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${beach?.playa?.imatgesPlatja?.[0]?.url})`,
             }}>
-                <h1 className="text-4xl text-blue-500 font-bold text-kaushan mb-[10px]">"{beach?.playa?.nombre}"</h1>
+                <h1 className="text-4xl text-blue-500 font-bold text-kaushan mb-[10px]">{beach?.playa?.nombre}</h1>
                 <h2 className="text-2xl text-blue-500 font-bold text-kaushan mb-[10px]">{beach?.playa?.municipio}</h2>
                 <p className='text-xs text-white'>
                     {beach?.playa?.descripcioPlatja}
@@ -112,7 +133,7 @@ export const BeachDetail = () => {
                 {beach?.tiempo?.estadoCielo && (
                 <div className="w-1/4 p-[10px] text-xs flex flex-col items-center justify-start text-center">
                     <Icon src={beach?.tiempo?.estadoCielo?.icon} width="w-[30px]" height="w-[30px]" alt={beach?.tiempo?.estadoCielo?.text}/>
-                    <p>{beach?.tiempo?.temperatura} ºC</p>
+                    <p className="pt-[10px]">{beach?.tiempo?.temperatura} ºC</p>
                 </div>
                 )}
                 {beach?.tiempo && (
@@ -127,13 +148,13 @@ export const BeachDetail = () => {
                 )}
                 {beach?.calidadPlaya &&(
                 <div className="w-1/4 p-[10px] text-xs flex flex-col items-center justify-start text-center">
-                    <Icon src="flag.png" filter={beach?.tiempo?.estadoAgua?.color} width="w-[30px]" height="w-[30px]" alt="Estado del mar"/>
+                    <Icon src="flag.png" filter={beach?.tiempo?.estadoAgua?.color} width="w-[30px]" height="w-[30px]" alt={beach?.tiempo?.estadoAgua?.text}/>
                     <p className="pt-[10px]">{beach?.tiempo?.estadoAgua?.text}</p>
                 </div>
                 )}
                 {beach?.medusas &&(
                 <div className="w-1/4 p-[10px] text-xs flex flex-col items-center justify-start text-center">
-                    <Icon src="jellyfish.png" filter={beach?.medusas?.color} width="w-[30px]" height="w-[30px]" alt="Estado del las medusas"/>
+                    <Icon src="jellyfish.png" filter={beach?.medusas?.color} width="w-[30px]" height="w-[30px]" alt={beach?.medusas?.text}/>
                     <p className="pt-[10px]">{beach?.medusas?.text}</p>
                 </div>
                 )}
@@ -206,7 +227,62 @@ export const BeachDetail = () => {
                     </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    AQUI PONER REPORTES DE USUARIOS
+                    {reports.map((report) => (
+                        <article className="max-w-md w-full bg-white shadow-md rounded-2xl p-4 mb-4 border border-gray-100">
+                            <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                    <h3 className="text-lg font-semibold text-slate-800">Reporte de {report.username}</h3>
+                                    <p className="text-sm text-slate-500 mt-1">Observaciones del usuario sobre el estado de la playa a fecha de: {new Date(report.created_at).toLocaleString("es-ES", {
+                                            dateStyle: "short",
+                                            timeStyle: "short"
+                                        })}</p>
+                                </div>
+
+                                {/* Flag color badge */}
+                                <div className="ml-4 flex items-center">
+                                    <span
+                                        className={`inline-block w-10 h-6 rounded-md ${flagBadge(report.flag_color)} shadow-sm`}
+                                        title={`Bandera: ${report.flag_color}`}
+                                        aria-label={`Bandera: ${report.flag_color}`}
+                                    />
+                                </div>
+                            </div>
+
+                            <dl className="mt-4 grid grid-cols-1 gap-y-3 text-sm text-slate-700">
+                                <div className="flex justify-between">
+                                    <dt className="font-medium">Estado del agua</dt>
+                                    <dd className="text-right">{report.water_status}</dd>
+                                </div>
+
+                                <div className="flex justify-between">
+                                    <dt className="font-medium">Limpieza del agua</dt>
+                                    <dd className="text-right">{report.water_cleanliness}</dd>
+                                </div>
+
+                                <div className="flex justify-between">
+                                    <dt className="font-medium">Limpieza de la playa</dt>
+                                    <dd className="text-right">{report.beach_cleanliness}</dd>
+                                </div>
+
+                                <div className="flex justify-between">
+                                    <dt className="font-medium">Afluencia</dt>
+                                    <dd className="text-right">{report.people_number}</dd>
+                                </div>
+
+                                <div className="flex justify-between">
+                                    <dt className="font-medium">Medusas</dt>
+                                    <dd className="text-right">{report.jellyfish_presence}</dd>
+                                </div>
+
+                                {report.comment && (
+                                    <div className="col-span-1 mt-2">
+                                        <dt className="font-medium">Comentario</dt>
+                                        <dd className="mt-1 text-sm text-slate-600 bg-gray-50 p-3 rounded-md">{report.comment}</dd>
+                                    </div>
+                                )}
+                            </dl>
+                        </article>
+                    ))}
                 </CustomTabPanel>
             </Box>
 
