@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
-import { Home } from '../components/Home'
-import { LoginForm } from '../components/LoginForm'
-import { RegisterForm } from '../components/RegisterForm'
-import { BeachDetail } from '../components/BeachDetail'
+import { Home } from '../components/pages/Home'
+import { LoginForm } from '../components/pages/LoginForm'
+import { RegisterForm } from '../components/pages/RegisterForm'
+import { BeachDetail } from '../components/pages/BeachDetail'
 import { ReportForm } from '../components/ReportForm'
 
 
