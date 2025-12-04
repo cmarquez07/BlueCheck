@@ -80,9 +80,7 @@ export const RegisterForm = () => {
 
         const registerPromise = fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(form)
         }).then(async (res) => {
             const data = await res.json();
@@ -155,7 +153,7 @@ export const RegisterForm = () => {
                     <span>Contraseña</span>
                     <input
                         type="password"
-                        placeholder="Contraseña"
+                        placeholder="••••••••"
                         name="password"
                         value={form.password}
                         onChange={update("password")}

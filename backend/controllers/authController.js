@@ -17,3 +17,21 @@ export const login = async(req, res) => {
         res.status(err.status || 500).json({ message: err.message });
     }
 };
+
+export const getUser = async(req, res) => {
+    try {
+        const result = await AuthService.getUser(req.params.userId);
+        res.json(result);
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message });
+    }
+};
+
+export const updateUser = async(req, res) => {
+    try {
+        const result = await AuthService.updateUser(req.body);
+        res.json(result);
+    } catch (err) {
+        res.status(err.status || 500).json({ message: err.message });
+    }
+};

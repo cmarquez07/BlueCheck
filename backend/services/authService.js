@@ -81,3 +81,46 @@ export const login = async ({ identifier, password }) => {
         token
     };
 };
+
+// Get user by ID
+export const getUser = async (id) => {
+    const result = await pool.query(
+        `SELECT id, email, username, name FROM users WHERE id = $1`,
+        [parseInt(id, 10)]
+    );
+
+    const user = result.rows[0];
+
+    if (!user) {
+        throw { status: 401, message: "🪼Usuario no encontrado🪼" }
+    }
+
+    return user;
+}
+
+export const updateUser = async ({ email, password, username, name, id }) => {
+    let password_hash;
+    if (password && password.trim() !== "") {
+        const saltRounds = 10;
+        password_hash = await bcrypt.hash(password, saltRounds);
+    }
+
+    const result = await pool.query(
+        `UPDATE users 
+        SET email = $1,
+            username = $2,
+            name = $3,
+            password = COALESCE($4, password)
+        WHERE id = $5
+        RETURNING id, email, username, name`,
+        [email, username, name, password_hash, parseInt(id, 10)]
+    );
+
+    const user = result.rows[0];
+
+    if (!user) {
+        throw { status: 401, message: "🪼Usuario no encontrado🪼" }
+    }
+
+    return user;
+}
