@@ -12,7 +12,22 @@ export const getBeachList = async () => {
     }
 
     const data = await response.json();
-    return data.playas;
+    
+    const result = data.playas.map(playa => ({
+        id: playa.id,
+        nombre: playa.nombre,
+        municipio: playa.municipio,
+        descripcion: playa.descripcion,
+        costa: playa.costa,
+        imagen_url: playa.imagen_url,
+        latitud: playa.latitud,
+        longitud: playa.longitud,
+        medusas: randomizeValue("_MEDUSES_", playa.id),
+        estadoCielo: searchBeachTag("_ESTADOCIELO_", playa.estadocielo),
+        estadoAgua: randomizeValue("_CALIDAD_", playa.id)
+    }));
+
+    return result;
 };
 
 // Get Beach detail
@@ -68,4 +83,13 @@ export const sendReport = async ({ beachId, userId, waterStatus, waterCleanlines
     );
 
     return result.rows[0];
+}
+
+export const getBeachReports = async (beachId) => {
+    const result = await pool.query(
+        `SELECT r.*, u.username FROM reports r INNER JOIN users u ON u.id = r.user_id WHERE beach_id = $1 ORDER BY r.created_at DESC`,
+        [beachId]
+    );
+
+    return result.rows;
 }

@@ -27,3 +27,12 @@ export const sendReport = async(req, res) => {
         res.status(500).json({ message: "🚩Error del servidor🚩"});
     }
 }
+
+export const getBeachReports = async(req, res) => {
+    try {
+        const beach = await BeachService.getBeachReports(req.params.id);
+        res.json(beach);
+    } catch (err) {
+        res.status(500).json({ message: "🚩Error del servidor🚩"});
+    }
+};
