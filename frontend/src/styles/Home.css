@@ -1,9 +1,9 @@
 main .leaflet-container {
-    height: calc(50vh - 56px);
+    height: calc(50vh - 68.5px);
 }
 
 main .main-container {
-    height: calc(100vh - 56px);
+    height: calc(100vh - 68.5px);
 }
 
 main .beach-card a {
@@ -12,12 +12,22 @@ main .beach-card a {
     height: 100%;
 }
 
+.shadow-md {
+    --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 127 212 / 0.5)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 127 212 / 0.5));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    color: #007FD4;
+}
+
+.shadow-md:hover {
+    --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 127 212 / 0.5)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 127 212 / 0.5)) !important;
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow) !important;
+}
+
 @media (min-width: 1024px) {
     main .leaflet-container {
         height: calc(100vh - 68.5px);
     }
     main {
-        overflow: hidden;
         height: calc(100vh - 68.5px);
     }
     main #beach-list {

@@ -23,11 +23,18 @@ export const Header = () => {
 
   const pages = [
     { name: 'Inicio', path: '/' },
-    isLoggedIn
-      ? { name: 'Cerrar sesión', action: 'logout' }
-      : { name: 'Iniciar sesión', path: '/login' },
     { name: 'Contacto', path: '/contact' },
     { name: 'Uso de información', path: '/data-usage' },
+    ...(
+      isLoggedIn
+      ? [
+        { name: 'Mi cuenta', action: '/user' },
+        { name: 'Cerrar sesión', action: 'logout' }
+      ]
+      : [
+        { name: 'Iniciar sesión', path: '/login' }
+      ]
+    )
   ];
 
   const handleOpenNavMenu = (event) => {

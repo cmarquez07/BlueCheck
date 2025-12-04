@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export const BeachCard = ({beach}) => {
     return (
-        <div data-beach-id={beach?.id} data-beach-name={beach?.nombre} data-beach-municipality={beach?.municipio} className="relative beach-card xl:min-w-[240px] w-[240px] h-[250px] md:min-w-0 cursor-pointer bg-white rounded-2x1 shadow-md overflow-hidden hover:shadow-lg transition-shadow flex-shrink-0 xl:mb-8">
+        <div data-beach-id={beach?.id} data-beach-name={beach?.nombre} data-beach-municipality={beach?.municipio} className="relative beach-card xl:w-full w-[240px] h-[250px] md:min-w-0 cursor-pointer bg-white rounded-2x1 shadow-md overflow-hidden transition flex-shrink-0 rounded-2xl scale-95 hover:scale-99">
             <div className="absolute top-[0] right-[0]">
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
                     <Fab aria-label="Favorito" size="small">
@@ -22,7 +22,7 @@ export const BeachCard = ({beach}) => {
                     />
                 </div>
 
-                <div className="p-3 flex flex-col justify-between flex-1">
+                <div className="p-3 lg:p-4 flex flex-col justify-between flex-1">
                     <h3 className="text-lg font-semibold text-blue-800 leading-tight text-kaushan">{beach?.nombre}</h3>
 
                     <p className="text-sm text-gray-600 mt-1 line-clamp-2">{beach?.descripcion}</p>
