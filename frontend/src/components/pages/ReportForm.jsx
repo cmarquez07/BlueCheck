@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useAuth } from '../context/AuthContext'
-import '../styles/Form.css';
+import { useAuth } from '../../context/AuthContext'
+import '../../styles/Form.css';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,30 +12,9 @@ import Select from '@mui/material/Select';
 
 
 export const ReportForm = () => {
+    const { id } = useParams();
     const { isLoggedIn, userId } = useAuth();
     const navigate = useNavigate();
-
-
-    useEffect(() => {
-        if (!isLoggedIn) {
-            toast.error("🪼Debes iniciar sesión para enviar un reporte🪼");
-            navigate("/");
-        }
-    },[])
-    
-    const { id } = useParams();
-    const [beach, setBeach] = useState([]);
-
-    useEffect(() => {
-        const fetchBeach = async () => {
-            const response = await fetch(`http://localhost/api/get-beach/${id}`);
-            const data = await response.json();
-            setBeach(data);
-        };
-
-        fetchBeach();
-    }, [id]);
-
 
     const [form, setForm] = useState({
         beachId: id,
@@ -49,6 +28,32 @@ export const ReportForm = () => {
         comment: ""
     });
 
+    useEffect(() => {
+        if (!userId) {
+            return;
+        }
+        
+        setForm(f => ({ ...f, userId}));
+
+        if (!isLoggedIn) {
+            toast.error("🪼Debes iniciar sesión para enviar un reporte🪼");
+            navigate("/");
+        }
+    },[userId])
+    
+    const [beach, setBeach] = useState([]);
+
+    useEffect(() => {
+        const fetchBeach = async () => {
+            const response = await fetch(`http://localhost/api/get-beach/${id}`);
+            const data = await response.json();
+            setBeach(data);
+        };
+
+        fetchBeach();
+    }, [id]);
+
+
     const update = (k) => (e) => {
         const value = e.target.value;
         setForm((f) => ({ ...f, [k]: value }));
@@ -60,9 +65,7 @@ export const ReportForm = () => {
 
         const reportPromise = fetch(`${import.meta.env.VITE_API_URL}/api/send-report`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(form)
         }).then(async (res) => {
             const data = await res.json();

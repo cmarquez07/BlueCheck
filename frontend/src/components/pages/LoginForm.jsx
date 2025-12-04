@@ -107,7 +107,7 @@ export const LoginForm = () => {
                     <span>Contraseña</span>
                     <input
                         type="password"
-                        placeholder="Contraseña"
+                        placeholder="••••••••"
                         name="password"
                         className="border border-blue-500 rounded-md pl-[10px] pr-[10px] p-[2px]"
                         onChange={update("password")}

@@ -28,7 +28,7 @@ export const Header = () => {
     ...(
       isLoggedIn
       ? [
-        { name: 'Mi cuenta', action: '/user' },
+        { name: 'Mi cuenta', path: '/user' },
         { name: 'Cerrar sesión', action: 'logout' }
       ]
       : [
