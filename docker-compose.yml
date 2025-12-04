@@ -4,6 +4,9 @@ services:
     build: ./backend
     container_name: bluecheck-backend
     restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
     ports:
       - "3002:3002"
     depends_on:
