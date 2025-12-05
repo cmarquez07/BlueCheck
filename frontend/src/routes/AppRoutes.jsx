@@ -6,6 +6,7 @@ import { BeachDetail } from '../components/pages/BeachDetail'
 import { ReportForm } from '../components/pages/ReportForm'
 import { UserPage } from '../components/pages/UserPage'
 import { ContactForm } from '../components/pages/ContactForm'
+import { DataUsage } from '../components/pages/DataUsage'
 
 
 export const AppRoutes = () => {
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
             <Route path="/beach/:id/sendreport" element={<ReportForm />}/>
             <Route path="/user" element={<UserPage />}/>
             <Route path="/contact" element={<ContactForm/>} />
+            <Route path="/data-usage" element={<DataUsage/>} />
         </Routes>
     )
 }
