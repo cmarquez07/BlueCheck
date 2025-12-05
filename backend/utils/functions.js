@@ -19,11 +19,11 @@ const BEACH_TAGS = {
       value: null
     },
     params: [
-      { name: "_SENSE_PRES_NCIA_DE_MEDUSES_", text: "Sin presencia de medusas", value: "_SENSE_PRES_NCIA_DE_MEDUSES_", color: "brightness(0) saturate(100%) invert(46%) sepia(0%) saturate(1035%) hue-rotate(128deg) brightness(90%) contrast(99%)"},
+      { name: "_SENSE_PRES_NCIA_DE_MEDUSES_", text: "Sin presencia de medusas", value: "_SENSE_PRES_NCIA_DE_MEDUSES_", color: "brightness(0) saturate(100%) invert(60%) sepia(83%) saturate(6058%) hue-rotate(183deg) brightness(89%) contrast(101%)"},
       { name: "_PRES_NCIA_DE_MEDUSES_SENSE_PERILL_", text: "Presencia de medusas sin peligro", value: "_PRES_NCIA_DE_MEDUSES_SENSE_PERILL_", color: "brightness(0) saturate(100%) invert(52%) sepia(53%) saturate(672%) hue-rotate(82deg) brightness(92%) contrast(86%)"},
       { name: "_PRES_NCIA_DE_MEDUSES_AMB_PERILL_", text: "Presencia de medusas peligrosas", value: "_PRES_NCIA_DE_MEDUSES_AMB_PERILL_", color: "brightness(0) saturate(100%) invert(88%) sepia(16%) saturate(6760%) hue-rotate(350deg) brightness(99%) contrast(104%)"},
       { name: "_PRES_NCIA_DE_MEDUSES_D_ALT_PERILL_", text: "Presencia de medusas muy peligrosas", value: "_PRES_NCIA_DE_MEDUSES_D_ALT_PERILL_", color: "brightness(0) saturate(100%) invert(19%) sepia(92%) saturate(1855%) hue-rotate(334deg) brightness(121%) contrast(89%)"},
-      { name: "_NO_INFO_", text: "Sin información", value: "_SENSE_INFORMACI_", color: "#424242"}
+      { name: "_NO_INFO_", text: "Sin información", value: "_SENSE_INFORMACI_", color: "brightness(0) saturate(100%) invert(73%) sepia(13%) saturate(246%) hue-rotate(179deg) brightness(87%) contrast(89%)"}
     ]
   },
 
@@ -105,6 +105,8 @@ const BEACH_TAGS = {
 };
 
 export function randomizeValue(parent, id) {
+  id = Number(id);
+  
   const category = BEACH_TAGS[parent];
   if (!category) {
     return null;

@@ -29,7 +29,6 @@ const FORM_RULES = {
 
 export const RegisterForm = () => {
     const navigate = useNavigate();
-
     const [form, setForm] = useState({
         name: "",
         username: "",
