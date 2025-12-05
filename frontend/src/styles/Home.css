@@ -18,7 +18,7 @@ main .beach-card a {
     color: #007FD4;
 }
 
-.shadow-md:hover {
+.beach-card.shadow-md:hover {
     --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 127 212 / 0.5)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 127 212 / 0.5)) !important;
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow) !important;
 }
