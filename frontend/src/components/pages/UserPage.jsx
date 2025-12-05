@@ -88,7 +88,6 @@ export const UserPage = () => {
       setLoading(false);
     }
 
-    console.log(favorites);
     fetchData();
   }, [userId]);
 

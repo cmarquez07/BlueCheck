@@ -101,7 +101,7 @@ export const BeachDetail = () => {
     return (
         <>
             <div id='beach-header' 
-            className='w-full flex flex-col justify-end h-[35vh] p-[20px] relative bg-cover bg-no-repeat' 
+            className='w-full flex flex-col justify-end h-[35vh] p-[20px] relative bg-cover bg-no-repeat bg-center' 
             style={{
                 backgroundImage: `
                   linear-gradient(
