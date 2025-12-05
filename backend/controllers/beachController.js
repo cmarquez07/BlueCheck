@@ -2,7 +2,7 @@ import * as BeachService from "../services/beachService.js";
 
 export const getBeachList = async(req, res) => {
     try {
-        const list = await BeachService.getBeachList();
+        const list = await BeachService.getBeachList(req.userId);
         res.json(list);
     } catch (err) {
         res.status(500).json({ message: "🚩Error del servidor🚩"})
@@ -56,3 +56,31 @@ export const getNearbyBeaches = async(req, res) => {
         res.status(500).json({ message: "🚩Error del servidor🚩"});
     }
 };
+
+export const getReportsByUser = async(req, res) => {
+    try {
+        const result = await BeachService.getReportsByUser(req.params.userId);
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({ message: "🚩Error del servidor🚩"});
+    }
+}
+
+export const getFavoritesByUser = async(req, res) => {
+    try {
+        const result = await BeachService.getFavoritesByUser(req.params.userId);
+        res.json(result);
+    } catch (err) {
+        res.status(500).json({ message: "🚩Error del servidor🚩"});
+    }
+}
+
+export const toggleFavoriteBeach = async(req, res) => {
+    try {
+        const result = await BeachService.toggleFavoriteBeach(req.userId, req.params.beachId);
+        res.json(result);
+    } catch (err) {
+        console.log("ERROR : ", err)
+        res.status(500).json({ message: "🚩Error del servidor🚩"});
+    }
+}
