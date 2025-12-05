@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom"
-import { Icon } from "./icons/Icon";
+import { Link } from 'react-router-dom'
+import { Icon } from './icons/Icon';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-export const BeachCard = ({beach}) => {
+export const BeachCard = ({beach, onImageLoad}) => {
+    
     return (
-        <div data-beach-id={beach?.id} data-beach-name={beach?.nombre} data-beach-municipality={beach?.municipio} className="relative beach-card xl:w-full w-[240px] h-[250px] md:min-w-0 cursor-pointer bg-white rounded-2x1 shadow-md overflow-hidden transition flex-shrink-0 rounded-2xl scale-95 hover:scale-99">
+        <div data-beach-id={beach?.id} data-beach-name={beach?.nombre} data-beach-municipality={beach?.municipio} className="relative beach-card w-[240px] h-[250px] md:min-w-0 cursor-pointer bg-white rounded-2x1 shadow-md overflow-hidden transition flex-shrink-0 rounded-2xl scale-95 hover:scale-99 lg:w-full group-[.flex-col]:w-full">
             <div className="absolute top-[0] right-[0]">
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
                     <Fab aria-label="Favorito" size="small">
@@ -19,13 +20,23 @@ export const BeachCard = ({beach}) => {
                     <img src={`https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${beach?.imagen_url}`} 
                         alt={beach?.nombre} 
                         className="w-full h-full"
+                        onLoad={onImageLoad}
+                        onError={onImageLoad}
                     />
                 </div>
 
                 <div className="p-3 lg:p-4 flex flex-col justify-between flex-1">
-                    <h3 className="text-lg font-semibold text-blue-800 leading-tight text-kaushan">{beach?.nombre}</h3>
+                    <div className="flex justify-between items-center">
+                        <h3 className="text-lg font-semibold text-blue-800 leading-tight text-kaushan">{beach?.nombre}</h3>
+
+                        {beach?.distance && (
+                            <span className="text-sm text-blue-800 font-semibold ">📍 A {beach.distance} Km</span>
+                        )}
+                    </div>
 
                     <p className="text-sm text-gray-600 mt-1 line-clamp-2">{beach?.descripcion}</p>
+
+                    
 
                     <div className="flex justify-between mt-4">
                         {/* Jellyfish status icon */}

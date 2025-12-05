@@ -45,6 +45,7 @@ export const getBeachDetail = async (id) => {
     // Filtrar los resultados para enviar solo los que necesito
     const { calidadPlaya, estadoMar, estadoPlaya, playa } = data.items;
 
+    // Datos del tiempo y la playa
     const tiempo = {
         temperatura: estadoPlaya.temperatura,
         temperaturaAgua: estadoPlaya.temperaturaAgua,
@@ -53,13 +54,27 @@ export const getBeachDetail = async (id) => {
         estadoCielo: searchBeachTag("_ESTADOCIELO_", estadoPlaya.etiquetaCielo),
         estadoAgua: randomizeValue("_CALIDAD_", id)
     }
-    
+
+    const nearbyIds = await getNearbyBeaches(id);
+    const allBeaches = await getBeachList();
+
+    const nearbyBeaches = allBeaches.filter(b => nearbyIds.some(n => n.beach_id === b.id))
+        .map(beach => {
+            const nearbyBeach = nearbyIds.find(n => n.beach_id === beach.id);
+            return {
+                ...beach,
+                medusas: randomizeValue("_MEDUSES_", beach.id),
+                distance: nearbyBeach.distance
+            };
+        });
+
     const result = {
         calidadPlaya,
         estadoMar,
         tiempo: tiempo,
         playa,
-        medusas: randomizeValue("_MEDUSES_", id)
+        medusas: randomizeValue("_MEDUSES_", id),
+        nearbyBeaches
     }
 
     return result;
@@ -88,6 +103,61 @@ export const sendReport = async ({ beachId, userId, waterStatus, waterCleanlines
 export const getBeachReports = async (beachId) => {
     const result = await pool.query(
         `SELECT r.*, u.username FROM reports r INNER JOIN users u ON u.id = r.user_id WHERE beach_id = $1 ORDER BY r.created_at DESC`,
+        [beachId]
+    );
+
+    return result.rows;
+}
+
+// Función para añadir la ubicacón de las playas.
+export const saveBeachLocations = async () => {
+    const response = await fetch(
+        "https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/app.php/api/front/es"
+    );
+
+    if (!response.ok) {
+        throw new Error("🪼Error al recibir los datos oficiales🪼")
+    }
+
+    const data = await response.json();
+    const beaches = data.playas.map(playa => ({
+        id: playa.id,
+        lon: playa.longitud,
+        lat: playa.latitud,
+    }));
+
+    const results = [];
+
+    for (const beach of beaches) {
+        const result = await pool.query(
+            `INSERT INTO beach_location (
+                    beach_id,
+                    geom)
+                VALUES ($1, ST_SetSRID(ST_MakePoint($2, $3), 4326)::GEOGRAPHY)
+                ON CONFLICT (beach_id) DO NOTHING
+                RETURNING beach_id`,
+            [beach.id, beach.lon, beach.lat]
+        );
+
+        if (result.rows[0]) {
+            results.push(result.rows[0]);
+        }
+    }
+
+    return results;
+}
+
+// Obtener playas cercanas en un radio de 5 Km
+export const getNearbyBeaches = async (beachId) => {
+    const result = await pool.query(
+        `SELECT
+            b2.beach_id,
+            ROUND((ST_Distance(b1.geom, b2.geom) / 1000)::numeric, 2) AS distance
+        FROM beach_location b1
+        JOIN beach_location b2 ON b1.beach_id != b2.beach_id
+        WHERE b1.beach_id = $1
+            AND ST_DWithin(b1.geom, b2.geom, 5000)
+        ORDER BY distance`,
         [beachId]
     );
 

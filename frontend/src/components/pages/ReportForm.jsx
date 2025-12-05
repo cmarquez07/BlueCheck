@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext'
@@ -45,7 +45,7 @@ export const ReportForm = () => {
 
     useEffect(() => {
         const fetchBeach = async () => {
-            const response = await fetch(`http://localhost/api/get-beach/${id}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/get-beach/${id}`);
             const data = await response.json();
             setBeach(data);
         };

@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react'
-import { Icon } from "../icons/Icon";
+import { Icon } from '../icons/Icon';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -14,6 +14,9 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
+import { BeachList } from '../BeachList'
+import { Loader } from '../Loader';
+
 
 // Funcines de componentes
 function CustomTabPanel(props) {
@@ -59,6 +62,8 @@ export const BeachDetail = () => {
     const { id } = useParams();
     const [beach, setBeach] = useState([]);
     const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     
     // Estado para el componente de las Tabs
     const [value, setValue] = useState(0);
@@ -68,20 +73,25 @@ export const BeachDetail = () => {
     };
 
     useEffect(() => {
-        const fetchBeach = async () => {
-            const response = await fetch(`http://localhost/api/get-beach/${id}`);
-            const data = await response.json();
-            setBeach(data);
-        };
+        setLoading(true);
+        const fetchData = async () => {
+            try {
+                const beachResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-beach/${id}`);
+                const beachData = await beachResponse.json();
+                setBeach(beachData);
 
-        const fetchReports = async () => {
-            const response = await fetch(`http://localhost/api/get-beach-reports/${id}`);
-            const data = await response.json();
-            setReports(data);
-        };
+                const reportsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-beach-reports/${id}`);
+                const reportsData = await reportsResponse.json();
+                setReports(reportsData);
+            } catch (err) {
+                console.error("Error al cargar los datos de la playa", err);
+            }
 
-        fetchBeach();
-        fetchReports();
+            setValue(0);
+            setLoading(false);
+        }
+
+        fetchData();
     }, [id]);
 
     const flagBadge = (color) => {
@@ -95,10 +105,6 @@ export const BeachDetail = () => {
         return map[color] || map.default;
     }
 
-    // Debugging, ELIMINAR CUANDO ESTE LISTO
-    useEffect(() => {
-        console.log("Reportes actualizado:", reports);
-    }, [reports]);
     return (
         <>
             <div id='beach-header' 
@@ -108,12 +114,12 @@ export const BeachDetail = () => {
                   linear-gradient(
                         to top,
                         rgba(0, 0, 0, 1),
-                        rgba(0, 0, 0, 0)
+                        rgba(255, 255, 255, 0.2)
                     ),
                  url(https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${beach?.playa?.imatgesPlatja?.[0]?.url})`,
             }}>
-                <h1 className="text-4xl text-blue-500 font-bold text-kaushan mb-[10px]">{beach?.playa?.nombre}</h1>
-                <h2 className="text-2xl text-blue-500 font-bold text-kaushan mb-[10px]">{beach?.playa?.municipio}</h2>
+                <h1 className="text-4xl text-blue-800 font-bold text-kaushan mb-[10px]">{beach?.playa?.nombre}</h1>
+                <h2 className="text-2xl text-blue-800 font-bold text-kaushan mb-[10px]">{beach?.playa?.municipio}</h2>
                 <p className='text-xs text-white'>
                     {beach?.playa?.descripcioPlatja}
                 </p>
@@ -161,9 +167,19 @@ export const BeachDetail = () => {
             </div>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="Pestañas de información">
+                    <Tabs value={value} 
+                        onChange={handleChange} 
+                        variant="scrollable" 
+                        scrollButtons="auto" 
+                        aria-label="Pestañas de información" 
+                        sx={{
+                            "& .MuiTabs-scrollButtons": {
+                                display: "inline-flex !important",
+                    },
+                }}>
                         <Tab label="Información oficial" {...a11yProps(0)} />
                         <Tab label="Reportes de usuarios" {...a11yProps(1)} />
+                        <Tab label="Playas cercanas" {...a11yProps(2)} />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
@@ -196,14 +212,14 @@ export const BeachDetail = () => {
                             <AccordionDetails>
                                 <ul>
                                     <li className="flex items-center gap-[9px] mb-[5px]"><Icon src="jellyfish.png" filter={beach?.medusas?.color} width="w-[15px]" height="h-[15px]" alt="Estado del las medusas"/>{beach?.medusas?.text}</li>
-                                    <li className="flex items-center gap-[9px] mb-[5px]"><Icon src="flag.png" filter={beach?.medusas?.color} width="w-[15px]" height="h-[15px]" alt="Estado del las medusas"/>{beach?.tiempo?.estadoAgua?.text}</li>
+                                    <li className="flex items-center gap-[9px] mb-[5px]"><Icon src="flag.png" filter={beach?.tiempo?.estadoAgua?.color} width="w-[15px]" height="h-[15px]" alt="Estado del las medusas"/>{beach?.tiempo?.estadoAgua?.text}</li>
                                     <li className="flex items-center gap-[9px] mb-[5px]"><Icon src="waterTermometer.png" width="w-[15px]" height="w-[15px]" alt="Temperatura del agua"/>Temperatura del agua: {beach?.tiempo?.temperaturaAgua}ºC</li>
                                     <li className="mb-[5px]"><i className="fa-solid fa-up-long"></i> Altura de las olas: {beach?.estadoMar?.alturaolas} m </li>
                                     <li className="mb-[5px]"><i className="fa-solid fa-water"></i> Dirección de las olas: {direction(beach?.estadoMar?.direccionolas)} </li>
                                     <li className="mb-[5px]"><i className="fa-solid fa-compass"></i> Dirección del viento: {direction(beach?.estadoMar?.direccionviento)}</li>
                                     <li className="mb-[5px]"><i className="fa-solid fa-wind"></i> Velocidad del viento: {beach?.estadoMar?.velocidadviento} m/s</li>
-                                    <li className="mb-[5px]"><i className="fa-regular fa-sun"></i> Índice UV: : {beach?.playa?.caracteristicasFisicas?.entorno} </li>
-                                    <li className="mb-[5px]"><i className="fa-regular fa-sun"></i> Índice UV máxima radiación: {beach?.playa?.caracteristicasFisicas?.entorno} </li>
+                                    <li className="mb-[5px]"><i className="fa-regular fa-sun"></i> Índice UV: : {beach?.estadoMar?.uvminimo} ({beach?.estadoMar?.uv_min_literal}) </li>
+                                    <li className="mb-[5px]"><i className="fa-regular fa-sun"></i> Índice UV máxima radiación: {beach?.estadoMar?.uvmaximo} ({beach?.estadoMar?.uv_max_literal}) </li>
                                 </ul>
                             </AccordionDetails>
                         </Accordion>
@@ -228,7 +244,7 @@ export const BeachDetail = () => {
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
                     {reports.map((report) => (
-                        <article className="max-w-md w-full bg-white shadow-md rounded-2xl p-4 mb-4 border border-gray-100">
+                        <article key={report.id} className="max-w-md w-full bg-white shadow-md rounded-2xl p-4 mb-4 border border-gray-100">
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
                                     <h3 className="text-lg font-semibold text-slate-800">Reporte de {report.username}</h3>
@@ -284,9 +300,17 @@ export const BeachDetail = () => {
                         </article>
                     ))}
                 </CustomTabPanel>
+                <CustomTabPanel value={value} index={2}>
+                    <div className="flex flex-col lg:grid lg:grid-cols-3 group">
+                        <BeachList beaches={beach.nearbyBeaches}/>
+                    </div>
+                </CustomTabPanel>
+
             </Box>
 
-            {/* TODO: Playas cercanas, recogidas con postgis */}
+            {loading && (
+                <Loader />
+            )}
         </>
     )
 }
