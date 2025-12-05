@@ -104,70 +104,59 @@ export const RegisterForm = () => {
     }
 
     return (
-        <div id="register-form" className="flex flex-col justify-center items-center mt-[40px]">
+        <div className="w-90 lg:w-full max-w-xl mx-auto mt-2 p-6 bg-white shadow-lg rounded-xl">
             <div id="branding" className="flex flex-col items-center">
                 <Logo />
-                <h1 className="text-4xl text-blue-500 font-bold text-kaushan">BlueCheck</h1>
+                <h1 className="text-2xl lg:text-4xl text-blue-500 font-bold text-kaushan">BlueCheck</h1>
             </div>
-            <form className="w-[75%] lg:w-[20%] mt-[30px]" noValidate onSubmit={handleSubmit}>
-                <label className="flex flex-col mb-[10px]">
-                    <span>Nombre</span>
-                    <input
-                        type="text"
-                        placeholder="Nombre"
-                        name="name"
-                        value={form.name}
-                        onChange={update("name")}
-                        className="border border-blue-500 rounded-md pl-[10px] pr-[10px] p-[2px]"
-                    />
-                    {errors.name && <small className="text-red-500">{errors.name}</small>}
-                </label>
+            <h2 className="text-4xl text-center font-bold text-blue-700 mt-6 mb-6 text-kaushan">Crear una cuenta</h2>
 
-                <label className="flex flex-col mb-[10px]">
-                    <span>Nombre de usuario</span>
-                    <input
-                        type="text"
-                        placeholder="Nombre de usuario"
-                        name="username"
-                        value={form.username}
-                        onChange={update("username")}
-                        className="border border-blue-500 rounded-md pl-[10px] pr-[10px] p-[2px]"
-                    />
-                    {errors.username && <small className="text-red-500">{errors.username}</small>}
-                </label>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
-                 <label className="flex flex-col mb-[10px]">
-                    <span>Correo electrónico</span>
+                <div>
+                    <label className="block text-sm text-gray-600 mb-1">Email</label>
                     <input
-                        type="text"
-                        placeholder="Correo electrónico"
-                        name="email"
-                        value={form.email}
+                        type="email"
+                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("email")}
-                        className="border border-blue-500 rounded-md pl-[10px] pr-[10px] p-[2px]"
                     />
                     {errors.email && <small className="text-red-500">{errors.email}</small>}
-                </label>
+                </div>
 
-                 <label className="flex flex-col mb-[10px]">
-                    <span>Contraseña</span>
+                <div>
+                    <label className="block text-sm text-gray-600 mb-1">Nombre de usuario</label>
+                    <input
+                        type="text"
+                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        onChange={update("username")}
+                    />
+                    {errors.username && <small className="text-red-500">{errors.username}</small>}
+                </div>
+
+                <div>
+                    <label className="block text-sm text-gray-600 mb-1">Nombre completo</label>
+                    <input
+                        type="text"
+                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        onChange={update("name")}
+                    />
+                    {errors.name && <small className="text-red-500">{errors.name}</small>}
+                </div>
+
+                <div>
+                    <label className="block text-sm text-gray-600 mb-1">Contraseña</label>
                     <input
                         type="password"
+                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="••••••••"
-                        name="password"
-                        value={form.password}
                         onChange={update("password")}
-                        className="border border-blue-500 rounded-md pl-[10px] pr-[10px] p-[2px]"
                     />
                     {errors.password && <small className="text-red-500">{errors.password}</small>}
-                </label>
-
-                <div className="flex flex-col justify-center mt-[20px]">
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[50%] m-auto" data-testid="submit">
-                        Registrarse
-                    </button>
-                    <p className="text-sm mt-[10px] text-center">¿Ya tienes una cuenta? <Link to="/login" className="text-blue-700 underline">Inicia sesión</Link></p>
                 </div>
+
+                <button type="submit" className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-blue-300">
+                    Registrarse
+                </button>
             </form>
         </div>
     )
