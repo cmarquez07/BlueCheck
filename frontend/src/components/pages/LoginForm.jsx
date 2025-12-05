@@ -86,40 +86,40 @@ export const LoginForm = () => {
 
     
     return (
-        <div id="login-form" className="flex flex-col justify-center items-center mt-[40px]">
+        <div className="w-90 lg:w-full max-w-xl mx-auto mt-2 p-6 bg-white shadow-lg rounded-xl">
             <div id="branding" className="flex flex-col items-center">
                 <Logo />
-                <h1 className="text-4xl text-blue-500 font-bold text-kaushan">BlueCheck</h1>
+                <h1 className="text-2xl lg:text-4xl text-blue-500 font-bold text-kaushan">BlueCheck</h1>
             </div>
-            <form className="w-[75%] lg:w-[20%] mt-[30px]" noValidate onSubmit={handleSubmit}>
-                <label className="flex flex-col mb-[10px]">
-                    <span>Nombre de usuario o contraseña</span>
+            <h2 className="text-4xl text-center font-bold text-blue-700 mt-6 mb-6 text-kaushan">Iniciar sesión</h2>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+
+                <div>
+                    <label className="block text-sm text-gray-600 mb-1">Nombre de usuario o correo electrónico</label>
                     <input
                         type="text"
-                        placeholder="Nombre de usuario o contraseña"
-                        name="identifier"
-                        className="border border-blue-500 rounded-md pl-[10px] pr-[10px] p-[2px]"
+                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("identifier")}
                     />
-                </label>
+                </div>
 
-                <label className="flex flex-col mb-[10px]">
-                    <span>Contraseña</span>
+                <div>
+                    <label className="block text-sm text-gray-600 mb-1">Contraseña</label>
                     <input
                         type="password"
+                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="••••••••"
-                        name="password"
-                        className="border border-blue-500 rounded-md pl-[10px] pr-[10px] p-[2px]"
                         onChange={update("password")}
                     />
-                </label>
-
-                <div className="flex flex-col justify-center mt-[20px]">
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[50%] m-auto" data-testid="submit">
-                        Iniciar sesión
-                    </button>
-                    <p className="text-sm mt-[10px] text-center">Aún no te has registrado? <Link to="/register" className="text-blue-700 underline">Crea una cuenta</Link></p>
                 </div>
+
+                <button type="submit" className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                    Iniciar sesión
+                </button>
+                <label className="block text-sm text-gray-600 mb-1 text-center">¿Aún no te has registrado? <Link to="/register" className="text-blue-700 underline">Crea una cuenta</Link></label>
+                <p className="text-sm mt-[10px] text-center"></p>
+
             </form>
         </div>
     )
