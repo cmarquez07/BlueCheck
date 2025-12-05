@@ -185,6 +185,21 @@ export const UserPage = () => {
 
       {/* Reportes y Playas favoritas */}
       <div className="w-90 lg:w-full max-w-6xl mx-auto mt-8 flex flex-col lg:flex-row gap-6">
+        {/* Mis playas favoritas */}
+        <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-kaushan">Mis Playas Favoritas</h2>
+          {loading ? (
+            <Loader />
+          ) : favorites.length === 0 ? (
+            <p className="text-gray-500">Aún no tienes playas favoritas.</p>
+          ) : (
+            <ul className="space-y-3 group flex-col">
+              {favorites.map((beach) => (
+                <BeachCard key={beach.id} beach={beach} onToggleFavorite={toggleFavorite} />
+              ))}
+            </ul>
+          )}
+        </div>
         
         {/* Mis reportes */}
         <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
@@ -197,22 +212,6 @@ export const UserPage = () => {
             <ul className="space-y-3">
               {reports.map((report) => (
                 <BeachReport key={report.id} report={report} />
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Mis playas favoritas */}
-        <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
-          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-kaushan">Mis Playas Favoritas</h2>
-          {loading ? (
-            <Loader />
-          ) : favorites.length === 0 ? (
-            <p className="text-gray-500">Aún no tienes playas favoritas.</p>
-          ) : (
-            <ul className="space-y-3">
-              {favorites.map((beach) => (
-                <BeachCard key={beach.id} beach={beach} onToggleFavorite={toggleFavorite} />
               ))}
             </ul>
           )}
