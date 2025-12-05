@@ -20,10 +20,10 @@ export const BeachCard = ({beach, onImageLoad, onToggleFavorite}) => {
                 </Box>
             </div>
             <Link to={`/beach/${beach?.id}`} >
-                <div className="w-full h-20 md:h-40 overflow-hidden flex items-end">
+                <div className="w-full h-20 md:h-40 overflow-hidden flex items-center">
                     <img src={`https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${beach?.imagen_url}`} 
                         alt={beach?.nombre} 
-                        className="w-full h-full"
+                        className="w-full h-auto object-cover"
                         onLoad={onImageLoad}
                         onError={onImageLoad}
                     />

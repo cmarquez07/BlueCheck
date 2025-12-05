@@ -2,6 +2,8 @@ import { useState } from 'react';
 import "../../styles/Form.css";
 import { Logo } from '../Logo';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
 
 const FORM_RULES = {
     name: [
@@ -17,6 +19,8 @@ const FORM_RULES = {
 };
 
 export const ContactForm = () => {
+    const navigate = useNavigate();
+
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -76,6 +80,7 @@ export const ContactForm = () => {
 
         if (data) {
             toast.success("🌊Formulario enviado correctamente🌊");
+            setTimeout(() => navigate("/"), 800);
         }
     }
 
