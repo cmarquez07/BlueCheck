@@ -1,13 +1,13 @@
 #report-form .MuiOutlinedInput-notchedOutline, 
-#report-form textarea,
-#report-form textarea:focus-visible,
+form textarea,
+form textarea:focus-visible,
 form input {
     border: 1px solid var(--color-blue-500);
     border-radius: 0.375rem;
     outline: none;
 }
 
-#report-form span.comment {
+form span.comment {
     color: rgba(0, 0, 0, 0.6);
 }
 

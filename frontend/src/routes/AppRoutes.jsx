@@ -5,6 +5,7 @@ import { RegisterForm } from '../components/pages/RegisterForm'
 import { BeachDetail } from '../components/pages/BeachDetail'
 import { ReportForm } from '../components/pages/ReportForm'
 import { UserPage } from '../components/pages/UserPage'
+import { ContactForm } from '../components/pages/ContactForm'
 
 
 export const AppRoutes = () => {
@@ -16,6 +17,7 @@ export const AppRoutes = () => {
             <Route path="/beach/:id" element={<BeachDetail />}/>
             <Route path="/beach/:id/sendreport" element={<ReportForm />}/>
             <Route path="/user" element={<UserPage />}/>
+            <Route path="/contact" element={<ContactForm/>} />
         </Routes>
     )
 }

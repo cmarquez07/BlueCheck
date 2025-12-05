@@ -3,6 +3,7 @@ import { BeachList } from '../BeachList'
 import { useState, useEffect } from 'react'
 import '../../styles/Home.css'
 import { Loader } from '../Loader'
+import toast from 'react-hot-toast'
 
 export const Home = () => {
     const [beaches, setBeaches] = useState([]);
@@ -31,6 +32,12 @@ export const Home = () => {
         });
 
         const data = await response.json();
+
+        if (data.favorite) {
+            toast.success("🌊Se ha añadido la playa a favoritos🌊");
+        } else {
+            toast.success("🌊Se ha eliminado la playa de favoritos🌊");
+        }
 
         setBeaches(prev => 
             prev.map(beach =>

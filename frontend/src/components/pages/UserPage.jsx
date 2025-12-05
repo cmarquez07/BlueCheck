@@ -160,7 +160,7 @@ export const UserPage = () => {
     <>
       {/* Formulario */}
       <div className="w-90 lg:w-full max-w-xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
-        <h2 className="text-2xl font-bold text-blue-700 mb-6">Mi Perfil</h2>
+        <h2 className="text-2xl font-bold text-blue-700 mb-6 text-kaushan">Mi Perfil</h2>
         <form onSubmit={updateUser} className="flex flex-col gap-5">
           {["email", "username", "name", "password"].map((field) => (
             <div key={field}>
@@ -188,7 +188,7 @@ export const UserPage = () => {
         
         {/* Mis reportes */}
         <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
-          <h2 className="text-2xl font-bold text-blue-700 mb-4">Mis Reportes</h2>
+          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-kaushan">Mis Reportes</h2>
           {loading ? (
             <Loader />
           ) : reports.length === 0 ? (
@@ -204,7 +204,7 @@ export const UserPage = () => {
 
         {/* Mis playas favoritas */}
         <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
-          <h2 className="text-2xl font-bold text-blue-700 mb-4">Mis Playas Favoritas</h2>
+          <h2 className="text-2xl font-bold text-blue-700 mb-4 text-kaushan">Mis Playas Favoritas</h2>
           {loading ? (
             <Loader />
           ) : favorites.length === 0 ? (
