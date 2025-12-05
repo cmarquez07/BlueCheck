@@ -3,14 +3,18 @@ import { Icon } from './icons/Icon';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import "../styles/BeachCard.css";
 
-export const BeachCard = ({beach, onImageLoad}) => {
+export const BeachCard = ({beach, onImageLoad, onToggleFavorite}) => {
+    const handleToggleFavorite = async () => {
+        onToggleFavorite(beach.id);
+    }
     
     return (
-        <div data-beach-id={beach?.id} data-beach-name={beach?.nombre} data-beach-municipality={beach?.municipio} className="beach-card relative beach-card w-[240px] h-[250px] md:min-w-0 cursor-pointer bg-white rounded-2x1 shadow-md overflow-hidden transition flex-shrink-0 rounded-2xl scale-95 hover:scale-99 lg:w-full group-[.flex-col]:w-full">
+        <div data-beach-id={beach?.id} data-beach-name={beach?.nombre} data-beach-municipality={beach?.municipio} className={`beach-card relative beach-card w-[240px] h-[250px] md:min-w-0 cursor-pointer bg-white rounded-2x1 shadow-md overflow-hidden transition flex-shrink-0 rounded-2xl scale-95 hover:scale-99 lg:w-full group-[.flex-col]:w-full ${beach.isFavorite ? "favorite" : ""}`}>
             <div className="absolute top-[0] right-[0]">
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                    <Fab aria-label="Favorito" size="small">
+                    <Fab aria-label="Favorito" size="small" onClick={handleToggleFavorite}>
                         <FavoriteIcon />
                     </Fab>
                 </Box>

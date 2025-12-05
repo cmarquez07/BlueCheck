@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader';
+import { BeachReport } from '../BeachReport';
+import { BeachCard } from '../BeachCard';
 
 const FORM_RULES = {
     name: [
@@ -34,8 +36,29 @@ export const UserPage = () => {
     name: "",
     password: ""
   });
+  const [reports, setReports] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [errors, setErrors] = useState({});
+
+  const toggleFavorite = async (beachId) => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/toggle-favorite/${beachId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    const data = await response.json();
+
+    if (!data.favorite) {
+      setFavorites(prev => prev.filter(b => b.id !== beachId))
+    }
+  }
 
 
   // Pedir los datos del usuario
@@ -43,14 +66,30 @@ export const UserPage = () => {
     if (!userId) {
       return;
     }
-    const fetchUser = async () => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/get-user/${userId}`);
-      const data = await response.json();
-      setUser(data);
-      setLoading(false);
-    };
 
-    fetchUser();
+    const fetchData = async () => {
+      try {
+        const userResponse = await fetch(`${import.meta.env.VITE_API_URL}/auth/get-user/${userId}`);
+        const userData = await userResponse.json();
+        setUser(userData);
+
+        const reportsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-user-reports/${userId}`);
+        const reportsData = await reportsResponse.json();
+        setReports(reportsData);
+
+        const favoritesResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-user-favorites/${userId}`);
+        const favoritesData = await favoritesResponse.json();
+        setFavorites(favoritesData);
+      } catch (err) {
+        console.error("Error al cargar los datos de la playa", err);
+        toast.error("🚩Error al cargar los datos🚩");
+      }
+
+      setLoading(false);
+    }
+
+    console.log(favorites);
+    fetchData();
   }, [userId]);
 
   const updateField = (k) => (e) => {
@@ -116,72 +155,70 @@ export const UserPage = () => {
     .catch(() => { })
 
   }
-
+  
   return (
     <>
+      {/* Formulario */}
       <div className="w-90 lg:w-full max-w-xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
         <h2 className="text-2xl font-bold text-blue-700 mb-6">Mi Perfil</h2>
-
         <form onSubmit={updateUser} className="flex flex-col gap-5">
-
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">Email</label>
-            <input
-              type="email"
-              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={user.email ?? ""}
-              onChange={updateField("email")}
-            />
-            {errors.email && <small className="text-red-500">{errors.email}</small>}
-
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">Nombre de usuario</label>
-            <input
-              type="text"
-              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={user.username ?? ""}
-              onChange={updateField("username")}
-            />
-            {errors.username && <small className="text-red-500">{errors.username}</small>}
-
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">Nombre completo</label>
-            <input
-              type="text"
-              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              value={user.name || ""}
-              onChange={updateField("name")}
-            />
-            {errors.name && <small className="text-red-500">{errors.name}</small>}
-
-          </div>
-
-          <div>
-            <label className="block text-sm text-gray-600 mb-1">Contraseña</label>
-            <input
-              type="password"
-              className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="••••••••"
-              onChange={updateField("password")}
-            />
-            {errors.password && <small className="text-red-500">{errors.password}</small>}
-
-          </div>
-
-
+          {["email", "username", "name", "password"].map((field) => (
+            <div key={field}>
+              <label className="block text-sm text-gray-600 mb-1">
+                {field === "username" ? "Nombre de usuario" : field === "name" ? "Nombre completo" : field === "password" ? "Contraseña" : "Email"}
+              </label>
+              <input
+                type={field === "password" ? "password" : "text"}
+                className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder={field === "password" ? "••••••••" : ""}
+                value={field !== "password" ? user[field] ?? "" : undefined}
+                onChange={updateField(field)}
+              />
+              {errors[field] && <small className="text-red-500">{errors[field]}</small>}
+            </div>
+          ))}
           <button type="submit" className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:bg-blue-300">
             Guardar cambios
           </button>
         </form>
       </div>
 
-      {loading && (
-        <Loader />
-      )}
+      {/* Reportes y Playas favoritas */}
+      <div className="w-90 lg:w-full max-w-6xl mx-auto mt-8 flex flex-col lg:flex-row gap-6">
+        
+        {/* Mis reportes */}
+        <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4">Mis Reportes</h2>
+          {loading ? (
+            <Loader />
+          ) : reports.length === 0 ? (
+            <p className="text-gray-500">Aún no has enviado ningún reporte.</p>
+          ) : (
+            <ul className="space-y-3">
+              {reports.map((report) => (
+                <BeachReport key={report.id} report={report} />
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Mis playas favoritas */}
+        <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
+          <h2 className="text-2xl font-bold text-blue-700 mb-4">Mis Playas Favoritas</h2>
+          {loading ? (
+            <Loader />
+          ) : favorites.length === 0 ? (
+            <p className="text-gray-500">Aún no tienes playas favoritas.</p>
+          ) : (
+            <ul className="space-y-3">
+              {favorites.map((beach) => (
+                <BeachCard key={beach.id} beach={beach} onToggleFavorite={toggleFavorite} />
+              ))}
+            </ul>
+          )}
+        </div>
+
+      </div>
     </>
-  )
-}
+  );
+};

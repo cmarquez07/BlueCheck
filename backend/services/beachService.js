@@ -2,7 +2,7 @@ import { randomizeValue, searchBeachTag, searchTemperature } from "../utils/func
 import { pool } from "../config/db.js"
 
 // Get Beach List
-export const getBeachList = async () => {
+export const getBeachList = async (userId) => {
     const response = await fetch(
         "https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/app.php/api/front/es"
     );
@@ -12,6 +12,15 @@ export const getBeachList = async () => {
     }
 
     const data = await response.json();
+
+    let favoriteIds = [];
+    if (userId) {
+        const favorites = await pool.query(
+            `SELECT beach_id FROM favorites WHERE user_id = $1`,
+            [userId]
+        );
+        favoriteIds = favorites.rows.map(f => f.beach_id)
+    }
     
     const result = data.playas.map(playa => ({
         id: playa.id,
@@ -24,7 +33,8 @@ export const getBeachList = async () => {
         longitud: playa.longitud,
         medusas: randomizeValue("_MEDUSES_", playa.id),
         estadoCielo: searchBeachTag("_ESTADOCIELO_", playa.estadocielo),
-        estadoAgua: randomizeValue("_CALIDAD_", playa.id)
+        estadoAgua: randomizeValue("_CALIDAD_", playa.id),
+        isFavorite: favoriteIds.includes(playa.id)
     }));
 
     return result;
@@ -162,4 +172,55 @@ export const getNearbyBeaches = async (beachId) => {
     );
 
     return result.rows;
+}
+
+export const getReportsByUser = async (userId) => {
+    const result = await pool.query(
+        `SELECT r.*, u.username FROM reports r INNER JOIN users u ON u.id = r.user_id WHERE user_id = $1 ORDER BY r.created_at DESC`,
+        [userId]
+    );
+
+    return result.rows;
+}
+
+export const getFavoritesByUser = async (userId) => {
+    const favorites = await pool.query(
+        `SELECT beach_id FROM favorites WHERE user_id = $1`,
+        [parseInt(userId, 10)]
+    );
+
+    const favoriteIds = favorites.rows.map(r => r.beach_id);
+
+    if (favoriteIds.length === 0) {
+        return [];
+    }
+
+    const allBeaches = await getBeachList(userId);
+
+    const favoriteBeaches = allBeaches.filter(
+        beach => favoriteIds.includes(beach.id)
+    )
+
+    return favoriteBeaches;
+}
+
+export const toggleFavoriteBeach = async (userId, beachId) => {
+    const exists = await pool.query(
+        `SELECT 1 FROM favorites WHERE user_id = $1 AND beach_id = $2`,
+        [userId, beachId]
+    );
+
+    if (exists.rows.length > 0) {
+        await pool.query(
+            `DELETE FROM favorites WHERE user_id = $1 AND beach_id = $2`,
+            [userId, beachId]
+        );
+        return {favorite: false};
+    } else {
+        await pool.query(
+            `INSERT INTO favorites (user_id, beach_id) VALUES ($1, $2)`,
+            [userId, beachId]
+        );
+        return {favorite: true};
+    }
 }
