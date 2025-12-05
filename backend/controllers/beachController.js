@@ -1,4 +1,7 @@
 import * as BeachService from "../services/beachService.js";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const getBeachList = async(req, res) => {
     try {
@@ -80,7 +83,29 @@ export const toggleFavoriteBeach = async(req, res) => {
         const result = await BeachService.toggleFavoriteBeach(req.userId, req.params.beachId);
         res.json(result);
     } catch (err) {
-        console.log("ERROR : ", err)
         res.status(500).json({ message: "🚩Error del servidor🚩"});
+    }
+}
+
+export const sendContactMessage = async (req, res) => {
+    
+    const { name, email, comment } = req.body;
+
+    try {
+        const data = await resend.emails.send({
+            from: "BlueCheck <onboarding@resend.dev>",
+            to: "cmarquezsau@uoc.edu",
+            subject: "Nuevo formulario de contacto enviado",
+            html: `
+            <h2>Nuevo formulario de contacto enviado</h2>
+            <p><strong>Nombre: ${name}</strong></p>
+            <p><strong>Email: ${email}</strong></p>
+            <p><strong>${comment}</strong></p>
+            `
+        });
+
+        res.json({ok: true});
+    } catch (err) {
+        res.status(500).json({ ok: false, message: "🚩Error del servidor🚩"});
     }
 }

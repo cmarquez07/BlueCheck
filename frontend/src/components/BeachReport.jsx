@@ -15,7 +15,7 @@ export const BeachReport = ({ report }) => {
         <article key={report.id} className="max-w-md w-full bg-white shadow-md rounded-2xl p-4 mb-4 border border-gray-100 ">
             <div className="flex items-start justify-between">
                 <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-slate-800">Reporte de {report.username}</h3>
+                    <h3 className="text-lg font-semibold text-slate-800 text-kaushan">Reporte de {report.username}</h3>
                     {report.beach_name && (
                         <h4 className="text-md font-semibold text-slate-800">{report.beach_name}</h4>
                     )}

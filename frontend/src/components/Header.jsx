@@ -47,7 +47,7 @@ export const Header = () => {
 
   const handleLogout = () => {
     logout();
-    toast.success("Se ha cerrado la sesión correctamente");
+    toast.success("🌊Se ha cerrado la sesión correctamente🌊");
     navigate("/");
   }
 
