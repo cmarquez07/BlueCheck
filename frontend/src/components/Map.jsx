@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import L from 'leaflet';
+import markerIconPng from 'leaflet/dist/images/marker-icon.png';
+import markerShadowPng from 'leaflet/dist/images/marker-shadow.png';
+
 
 export const Map = ({ markers, onToggleFavorite }) => {
     const isMobile = useIsMobile();
@@ -12,6 +16,13 @@ export const Map = ({ markers, onToggleFavorite }) => {
     const DEFAULT_MAP_COORDS = isMobile ? [41.40, 2.15] : [41.76, 2.20];
     const DEFAULT_MAP_ZOOM = isMobile ? 7 : 9;
     const MAP_WHEEL_ZOOM = isMobile? false : true;
+
+    let DefaultIcon = L.icon({
+        iconUrl: markerIconPng,
+        shadowUrl: markerShadowPng
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
 
     const handleToggleFavorite = async (id) => {
         onToggleFavorite(id);
@@ -39,7 +50,7 @@ export const Map = ({ markers, onToggleFavorite }) => {
             {markers.map(marker => (
                 <Marker key={marker.id} position={marker.position}>
                     <Popup >
-                        <FavoriteButton key={marker.key} isFavorite={marker.isFavorite} markerId={marker.id}/>
+                        <FavoriteButton isFavorite={marker.isFavorite} markerId={marker.id}/>
                         <Link to={`/beach/${marker.id}`}>
                             <img src={`https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${marker.imagen_url}`} alt={marker.nombre} className="w-full h-32 object-cover rounded-md mb-2" />
                             <div className="p-3">
