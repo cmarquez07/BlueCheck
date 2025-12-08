@@ -1,0 +1,68 @@
+services:
+## BACKEND (Node + Express) ##
+  backend:
+    build: ./backend
+    container_name: bluecheck-backend
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    ports:
+      - "3002:3002"
+    depends_on:
+      - db
+  
+  ## FRONTEND (React) ##
+  frontend:
+    container_name: bluecheck-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:5173"
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev
+
+  ## BASE DE DATOS (PostgreSQL 18) ##
+  db:
+    image: postgis/postgis:18-3.6
+    container_name: bluecheck-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  ## ADMINER (Gestor visual de la base de datos) ##
+  adminer:
+    image: adminer
+    container_name: bluecheck-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+  
+  ## Node Proxy Manager ##
+  npm:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - npm_data:/data
+      - npm_letsencrypt:/etc/letsencrypt
+  
+volumes:
+  postgres_data:
+  npm_data:
+  npm_letsencrypt:

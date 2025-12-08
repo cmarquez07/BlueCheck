@@ -1,0 +1,9 @@
+main #branding img {
+    width: 50px;
+}
+
+@media (min-width: 1024px) {
+    main #branding img {
+    width: 150px;
+}
+}

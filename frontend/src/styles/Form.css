@@ -1,0 +1,16 @@
+#report-form .MuiOutlinedInput-notchedOutline, 
+form textarea,
+form textarea:focus-visible,
+form input {
+    border: 1px solid var(--color-blue-500);
+    border-radius: 0.375rem;
+    outline: none;
+}
+
+form span.comment {
+    color: rgba(0, 0, 0, 0.6);
+}
+
+#report-form .MuiSelect-icon {
+    fill: var(--color-blue-500);
+}
