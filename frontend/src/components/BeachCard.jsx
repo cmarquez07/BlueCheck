@@ -20,7 +20,7 @@ export const BeachCard = ({beach, onImageLoad, onToggleFavorite}) => {
                 </Box>
             </div>
             <Link to={`/beach/${beach?.id}`} >
-                <div className="w-full h-20 md:h-40 overflow-hidden flex items-center lg:min-h-[95px]">
+                <div className="w-full h-16 md:h-40 overflow-hidden flex items-center lg:min-h-[95px]">
                     <img src={`https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${beach?.imagen_url}`} 
                         alt={beach?.nombre} 
                         className="w-full h-auto object-cover"
@@ -30,12 +30,13 @@ export const BeachCard = ({beach, onImageLoad, onToggleFavorite}) => {
                 </div>
 
                 <div className="p-3 lg:p-4 flex flex-col justify-between flex-1">
-                    <div className="flex justify-between flex flex-col">
-                        <h1 className="text-xl lg:text-2xl font-semibold text-[#007FD5] leading-tight text-kaushan">{beach?.nombre}</h1>
-                        <h2 className="text-md lg:text-xl text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan mt-1">{beach?.municipio}</h2>
-
+                    <div className="flex justify-between flex">
+                        <div className="w-65">
+                            <h1 className="text-xl lg:text-2xl font-semibold text-[#007FD5] leading-tight text-kaushan">{beach?.nombre}</h1>
+                            <h2 className="text-md lg:text-xl text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan mt-1">{beach?.municipio}</h2>
+                        </div>
                         {beach?.distance && (
-                            <span className="text-sm text-[#007FD5] font-semibold ">📍 A {beach.distance} Km</span>
+                            <span className="text-sm text-[#007FD5] font-semibold w-30 text-right pl-[10px]">📍 A {beach.distance} Km</span>
                         )}
                     </div>
 

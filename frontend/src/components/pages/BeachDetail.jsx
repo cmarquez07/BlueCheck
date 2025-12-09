@@ -77,7 +77,7 @@ export const BeachDetail = () => {
 
     const toggleFavorite = async () => {
         if (!token) {
-            toast.error("🪼Debes iniciar sesión para gardar la playa como favorita🪼");
+            toast.error("🪼Debes iniciar sesión para guardar la playa como favorita🪼");
             return;
         }
         
