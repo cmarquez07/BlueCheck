@@ -77,7 +77,7 @@ export const BeachDetail = () => {
 
     const toggleFavorite = async () => {
         if (!token) {
-            toast.error("🪼Debes iniciar sesión para gardar la playa como favorita🪼");
+            toast.error("🪼Debes iniciar sesión para guardar la playa como favorita🪼");
             return;
         }
         
@@ -221,7 +221,7 @@ export const BeachDetail = () => {
                                 <Typography component="span">Características de la playa</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <ul>
+                                <ul className="lg:columns-2 lg:gap-4 lg:pl-5">
                                     <li className="mb-[5px]"><i className="fa-solid fa-umbrella-beach"></i> Tipo de playa: {beach?.playa?.caracteristicasFisicas?.tipoplaya} </li>
                                     <li className="mb-[5px]"><i className="fa-solid fa-grip"></i> Tipo de arena: {beach?.playa?.caracteristicasFisicas?.tipoarena} </li>
                                     <li className="mb-[5px]"><i className="fa-solid fa-seedling"></i> Entorno: {beach?.playa?.caracteristicasFisicas?.entorno} </li>
@@ -238,7 +238,7 @@ export const BeachDetail = () => {
                                 <Typography component="span">Estado del agua</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <ul>
+                                <ul className="lg:columns-3 lg:gap-4 lg:pl-5">
                                     <li className="flex items-center gap-[9px] mb-[5px]"><Icon src="jellyfish.png" filter={beach?.medusas?.color} width="w-[15px]" height="h-[15px]" alt="Estado del las medusas"/>{beach?.medusas?.text}</li>
                                     <li className="flex items-center gap-[9px] mb-[5px]"><Icon src="flag.png" filter={beach?.tiempo?.estadoAgua?.color} width="w-[15px]" height="h-[15px]" alt="Estado del las medusas"/>{beach?.tiempo?.estadoAgua?.text}</li>
                                     <li className="flex items-center gap-[9px] mb-[5px]"><Icon src="waterTermometer.png" width="w-[15px]" height="w-[15px]" alt="Temperatura del agua"/>Temperatura del agua: {beach?.tiempo?.temperaturaAgua}ºC</li>
