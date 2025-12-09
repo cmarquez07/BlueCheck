@@ -271,11 +271,15 @@ export const BeachDetail = () => {
                     </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={1}>
-                    <div className="lg:grid lg:grid-cols-3 lg:justify-items-center gap-y-3">
-                        {reports.map((report) => (
-                            <BeachReport key={report.id} report={report} />
-                        ))}
-                    </div>
+                    {reports.length === 0 ? (
+                        <p className="text-center text-gray-500">Esta playa aún no tiene reportes de usuarios.</p>
+                    ) : (
+                        <div className="lg:grid lg:grid-cols-3 lg:justify-items-center gap-y-3">
+                            {reports.map((report) => (
+                                <BeachReport key={report.id} report={report} />
+                            ))}
+                        </div>
+                    )}
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
                     <div className="flex flex-col lg:grid lg:grid-cols-3 group">
