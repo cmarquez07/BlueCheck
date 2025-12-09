@@ -65,6 +65,7 @@ export const BeachDetail = () => {
     const [beach, setBeach] = useState([]);
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
+    const token = localStorage.getItem("token");
 
     
     // Estado para el componente de las Tabs
@@ -74,11 +75,45 @@ export const BeachDetail = () => {
         setValue(newValue);
     };
 
+    const toggleFavorite = async () => {
+        if (!token) {
+            toast.error("🪼Debes iniciar sesión para gardar la playa como favorita🪼");
+            return;
+        }
+        
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/toggle-favorite/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+        
+        setBeach(prev => ({
+            ...prev,
+            isFavorite: data.favorite
+        }));
+
+        if (data.favorite) {
+            toast.success("🌊Se ha añadido la playa a favoritos🌊");
+            
+        } else {
+            toast.success("🌊Se ha eliminado la playa de favoritos🌊");
+        }
+    }
+
     useEffect(() => {
         setLoading(true);
+
         const fetchData = async () => {
             try {
-                const beachResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-beach/${id}`);
+                const beachResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-beach/${id}`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
                 const beachData = await beachResponse.json();
                 setBeach(beachData);
 
@@ -101,7 +136,7 @@ export const BeachDetail = () => {
     return (
         <>
             <div id='beach-header' 
-            className='w-full flex flex-col justify-end h-[35vh] p-[20px] relative bg-cover bg-no-repeat bg-center' 
+            className={`w-full flex flex-col justify-end h-[35vh] p-[20px] relative bg-cover bg-no-repeat bg-center ${beach.isFavorite ? "favorite" : ""}`}
             style={{
                 backgroundImage: `
                   linear-gradient(
@@ -121,7 +156,7 @@ export const BeachDetail = () => {
                         <Fab color="primary" aria-label="add" size="small">
                             <Link to={`/beach/${beach?.playa?.id}/sendreport`}><AddIcon /></Link>
                         </Fab>
-                        <Fab aria-label="like" size="small">
+                        <Fab aria-label="like" size="small" onClick={toggleFavorite}>
                             <FavoriteIcon />
                         </Fab>
                     </Box>
