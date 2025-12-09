@@ -31,10 +31,10 @@ export const BeachCard = ({beach, onImageLoad, onToggleFavorite}) => {
 
                 <div className="p-3 lg:p-4 flex flex-col justify-between flex-1">
                     <div className="flex justify-between items-center">
-                        <h3 className="text-lg font-semibold text-blue-800 leading-tight text-kaushan">{beach?.nombre}</h3>
+                        <h3 className="text-2xl font-semibold text-[#007FD5] leading-tight text-kaushan">{beach?.nombre}</h3>
 
                         {beach?.distance && (
-                            <span className="text-sm text-blue-800 font-semibold ">📍 A {beach.distance} Km</span>
+                            <span className="text-sm text-[#007FD5] font-semibold ">📍 A {beach.distance} Km</span>
                         )}
                     </div>
 

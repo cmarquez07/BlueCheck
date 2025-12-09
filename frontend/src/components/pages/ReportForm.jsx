@@ -155,7 +155,7 @@ export const ReportForm = () => {
         <>
             <div id="report-form" className="flex flex-col justify-center items-center mt-[40px]">
                 <div id="branding" className="flex flex-col items-center">
-                    <h1 className="text-4xl text-blue-500 font-bold text-kaushan text-center">Enviar reporte para la playa "{beach?.playa?.nombre}"</h1>
+                    <h1 className="text-4xl text-[#007FD5] font-bold text-kaushan text-center">Enviar reporte para la playa "{beach?.playa?.nombre}"</h1>
                 </div>
                 <form className="w-[75%] lg:w-[20%] mt-[30px]" noValidate onSubmit={handleSubmit}>
                     <label className="flex flex-col mb-[10px]">
