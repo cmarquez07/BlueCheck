@@ -1,20 +1,24 @@
 import { Router } from "express";
 import { getBeachList, getBeachDetail, sendReport, getBeachReports, saveBeachLocations,
     getNearbyBeaches, getReportsByUser, getFavoritesByUser, toggleFavoriteBeach, sendContactMessage } from "../controllers/beachController.js";
-import { authMiddleware } from "../middleware/AuthMiddleware.js";
+import { authOptional, authRequired } from "../middleware/AuthMiddleware.js";
 
 const router = Router();
 
-
-router.get("/get-beach-list", authMiddleware, getBeachList);
-router.get("/get-beach/:id", getBeachDetail);
-router.post("/send-report", sendReport);
+// Rutas públicas
+router.get("/get-beach-list", authOptional, getBeachList);
+router.get("/get-beach/:id", authOptional, getBeachDetail);
 router.get("/get-beach-reports/:id", getBeachReports);
-router.get("/insert-locations", saveBeachLocations);
 router.get("/get-nearby-beahces/:id", getNearbyBeaches);
-router.get("/get-user-reports/:userId", getReportsByUser);
-router.get("/get-user-favorites/:userId", getFavoritesByUser);
-router.post("/toggle-favorite/:beachId", authMiddleware, toggleFavoriteBeach);
 router.post("/contact", sendContactMessage);
+
+// Autenticación requerida
+router.post("/send-report",authRequired, sendReport);
+router.get("/get-user-reports/", authRequired, getReportsByUser);
+router.get("/get-user-favorites/", authRequired, getFavoritesByUser);
+router.post("/toggle-favorite/:beachId", authRequired, toggleFavoriteBeach);
+
+
+router.get("/insert-locations", saveBeachLocations);
 
 export default router;

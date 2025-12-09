@@ -20,6 +20,7 @@ const FORM_RULES = {
 
 export const ContactForm = () => {
     const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [form, setForm] = useState({
         name: "",
@@ -69,6 +70,8 @@ export const ContactForm = () => {
         if (!formOk) {
             return;
         }
+
+        setIsSubmitting(true);
 
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
             method: "POST",
@@ -120,8 +123,8 @@ export const ContactForm = () => {
                     {errors.comment && <small className="text-red-500">{errors.comment}</small>}
                 </label>
 
-                <button type="submit" className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-                    Enviar
+                <button type="submit" disabled={isSubmitting} className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-[50%] m-auto ${isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"}`}>
+                    {isSubmitting ? "Enviando mensaje..." : "Enviar"}
                 </button>
 
             </form>

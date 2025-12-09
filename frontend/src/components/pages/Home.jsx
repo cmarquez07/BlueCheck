@@ -10,6 +10,7 @@ export const Home = () => {
     const [markers, setMarkers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadedImages, setLoadedImages] = useState(0);
+    const token = localStorage.getItem("token");
 
     const handleImageLoad = () => {
         setLoadedImages(prev => {
@@ -22,7 +23,10 @@ export const Home = () => {
     }
 
     const toggleFavorite = async (beachId) => {
-        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.error("🪼Debes iniciar sesión para gardar la playa como favorita🪼");
+            return;
+        }
 
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/toggle-favorite/${beachId}`, {
             method: "POST",
@@ -54,10 +58,11 @@ export const Home = () => {
         const fetchBeaches = async () => {
             setLoadedImages(0);
 
-            const token = localStorage.getItem("token");
-            const headers = token ? { "Authorization": `Bearer ${token}`} : {};
-
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/get-beach-list`, { headers });
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/get-beach-list`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
             const data = await response.json();
             
             setBeaches(data);
