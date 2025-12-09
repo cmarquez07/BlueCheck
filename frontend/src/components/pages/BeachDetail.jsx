@@ -142,12 +142,12 @@ export const BeachDetail = () => {
                   linear-gradient(
                         to top,
                         rgba(0, 0, 0, 1),
-                        rgba(255, 255, 255, 0.2)
+                        rgba(0, 0, 0, 0.1)
                     ),
                  url(https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${beach?.playa?.imatgesPlatja?.[0]?.url})`,
             }}>
-                <h1 className="text-4xl text-blue-800 font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.nombre}</h1>
-                <h2 className="text-2xl text-blue-800 font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.municipio}</h2>
+                <h1 className="text-4xl text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.nombre}</h1>
+                <h2 className="text-2xl text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.municipio}</h2>
                 <p className='text-xs text-white'>
                     {beach?.playa?.descripcioPlatja}
                 </p>
