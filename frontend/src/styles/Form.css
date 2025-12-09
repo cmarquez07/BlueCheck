@@ -14,3 +14,7 @@ form span.comment {
 #report-form .MuiSelect-icon {
     fill: var(--color-blue-500);
 }
+
+button[type=submit] {
+    cursor: pointer;
+}
