@@ -86,7 +86,7 @@ export const login = async ({ identifier, password }) => {
 export const getUser = async (id) => {
     const result = await pool.query(
         `SELECT id, email, username, name FROM users WHERE id = $1`,
-        [parseInt(id, 10)]
+        [id]
     );
 
     const user = result.rows[0];
@@ -98,7 +98,7 @@ export const getUser = async (id) => {
     return user;
 }
 
-export const updateUser = async ({ email, password, username, name, id }) => {
+export const updateUser = async (userId, { email, password, username, name }) => {
     let password_hash;
     if (password && password.trim() !== "") {
         const saltRounds = 10;
@@ -113,7 +113,7 @@ export const updateUser = async ({ email, password, username, name, id }) => {
             password = COALESCE($4, password)
         WHERE id = $5
         RETURNING id, email, username, name`,
-        [email, username, name, password_hash, parseInt(id, 10)]
+        [email, username, name, password_hash || null, userId]
     );
 
     const user = result.rows[0];

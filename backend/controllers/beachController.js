@@ -14,7 +14,7 @@ export const getBeachList = async(req, res) => {
 
 export const getBeachDetail = async(req, res) => {
     try {
-        const beach = await BeachService.getBeachDetail(req.params.id);
+        const beach = await BeachService.getBeachDetail(req.userId, req.params.id);
         res.json(beach);
     } catch (err) {
         res.status(500).json({ message: "🚩Error del servidor🚩"});
@@ -23,7 +23,7 @@ export const getBeachDetail = async(req, res) => {
 
 export const sendReport = async(req, res) => {
     try {
-        const saved = await BeachService.sendReport(req.body);
+        const saved = await BeachService.sendReport(req.userId, req.body);
         res.json(saved.id);
     } catch (err) {
         console.log("ERROR EN sendReport", err);
@@ -62,7 +62,7 @@ export const getNearbyBeaches = async(req, res) => {
 
 export const getReportsByUser = async(req, res) => {
     try {
-        const result = await BeachService.getReportsByUser(req.params.userId);
+        const result = await BeachService.getReportsByUser(req.userId);
         res.json(result);
     } catch (err) {
         res.status(500).json({ message: "🚩Error del servidor🚩"});
@@ -71,7 +71,7 @@ export const getReportsByUser = async(req, res) => {
 
 export const getFavoritesByUser = async(req, res) => {
     try {
-        const result = await BeachService.getFavoritesByUser(req.params.userId);
+        const result = await BeachService.getFavoritesByUser(req.userId);
         res.json(result);
     } catch (err) {
         res.status(500).json({ message: "🚩Error del servidor🚩"});

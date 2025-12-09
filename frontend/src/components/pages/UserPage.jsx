@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast';
 import { Loader } from '../Loader';
 import { BeachReport } from '../BeachReport';
 import { BeachCard } from '../BeachCard';
+import { useNavigate } from 'react-router-dom'
+
 
 const FORM_RULES = {
     name: [
@@ -28,9 +29,11 @@ const FORM_RULES = {
 };
 
 export const UserPage = () => {
-  const { userId } = useAuth();
+  const token = localStorage.getItem("token");
+  
+  const navigate = useNavigate();
+  
   const [user, setUser] = useState ({
-    id: userId,
     email: "",
     username: "",
     name: "",
@@ -43,8 +46,6 @@ export const UserPage = () => {
   const [errors, setErrors] = useState({});
 
   const toggleFavorite = async (beachId) => {
-    const token = localStorage.getItem("token");
-
     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/toggle-favorite/${beachId}`, {
       method: "POST",
       headers: {
@@ -57,27 +58,41 @@ export const UserPage = () => {
 
     if (!data.favorite) {
       setFavorites(prev => prev.filter(b => b.id !== beachId))
+      toast.success("🌊Se ha eliminado la playa de favoritos🌊");
     }
   }
 
 
   // Pedir los datos del usuario
   useEffect(() => {
-    if (!userId) {
+    if (!token) {
+      navigate("/");
       return;
     }
 
     const fetchData = async () => {
       try {
-        const userResponse = await fetch(`${import.meta.env.VITE_API_URL}/auth/get-user/${userId}`);
+        const userResponse = await fetch(`${import.meta.env.VITE_API_URL}/auth/get-user`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         const userData = await userResponse.json();
         setUser(userData);
 
-        const reportsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-user-reports/${userId}`);
+        const reportsResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-user-reports`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         const reportsData = await reportsResponse.json();
         setReports(reportsData);
 
-        const favoritesResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-user-favorites/${userId}`);
+        const favoritesResponse = await fetch(`${import.meta.env.VITE_API_URL}/api/get-user-favorites`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
         const favoritesData = await favoritesResponse.json();
         setFavorites(favoritesData);
       } catch (err) {
@@ -89,7 +104,7 @@ export const UserPage = () => {
     }
 
     fetchData();
-  }, [userId]);
+  }, []);
 
   const updateField = (k) => (e) => {
     const value = e.target.value;
@@ -134,7 +149,10 @@ export const UserPage = () => {
 
     const updatePromise = fetch(`${import.meta.env.VITE_API_URL}/auth/update-user`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
       body: JSON.stringify(user)
     }).then(async res => {
       const data = await res.json();

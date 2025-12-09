@@ -43,6 +43,7 @@ export const RegisterForm = () => {
         validateField(k, value);
     };
 
+    // Validaciones
     const validateField = (key, value) => {
         let message = "";
 

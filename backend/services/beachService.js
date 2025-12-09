@@ -41,7 +41,7 @@ export const getBeachList = async (userId) => {
 };
 
 // Get Beach detail
-export const getBeachDetail = async (id) => {
+export const getBeachDetail = async (userId, id) => {
     const response = await fetch(
         `https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/app.php/api/playadetalle/${id}/es`
     );
@@ -51,6 +51,17 @@ export const getBeachDetail = async (id) => {
     }
 
     const data = await response.json();
+
+    // Si el usuario ha iniciado sesión, comprueba si tiene marcada la playa como favorita
+    let isFavorite = false;
+    if (userId) {
+        const favResult = await pool.query(
+            `SELECT EXISTS (SELECT 1 FROM favorites WHERE user_id = $1 AND beach_id = $2) AS is_favorite`,
+            [userId, id]
+        );
+        
+        isFavorite = favResult.rows[0].is_favorite;
+    }
 
     // Filtrar los resultados para enviar solo los que necesito
     const { calidadPlaya, estadoMar, estadoPlaya, playa } = data.items;
@@ -84,13 +95,14 @@ export const getBeachDetail = async (id) => {
         tiempo: tiempo,
         playa,
         medusas: randomizeValue("_MEDUSES_", id),
-        nearbyBeaches
+        nearbyBeaches,
+        isFavorite
     }
 
     return result;
 };
 
-export const sendReport = async ({ beachId, userId, waterStatus, waterCleanliness, beachCleanliness, peopleNumber, jellyfishPresence, flagColor, comment }) => {
+export const sendReport = async (userId, { beachId, waterStatus, waterCleanliness, beachCleanliness, peopleNumber, jellyfishPresence, flagColor, comment, beachName }) => {
     const result = await pool.query(
         `INSERT INTO reports (
                 beach_id,
@@ -101,10 +113,11 @@ export const sendReport = async ({ beachId, userId, waterStatus, waterCleanlines
                 people_number,
                 jellyfish_presence,
                 flag_color,
-                comment)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                comment,
+                beach_name)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
             RETURNING id`,
-        [parseInt(beachId, 10), parseInt(userId, 10), waterStatus, waterCleanliness, beachCleanliness, peopleNumber, jellyfishPresence, flagColor, comment]
+        [parseInt(beachId, 10), parseInt(userId, 10), waterStatus, waterCleanliness, beachCleanliness, peopleNumber, jellyfishPresence, flagColor, comment, beachName]
     );
 
     return result.rows[0];
