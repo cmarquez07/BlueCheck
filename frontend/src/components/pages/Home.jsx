@@ -24,7 +24,7 @@ export const Home = () => {
 
     const toggleFavorite = async (beachId) => {
         if (!token) {
-            toast.error("🪼Debes iniciar sesión para gardar la playa como favorita🪼");
+            toast.error("🪼Debes iniciar sesión para guardar la playa como favorita🪼");
             return;
         }
 
@@ -91,11 +91,13 @@ export const Home = () => {
                 <div id="map-container" className="w-full lg:w-2/3">
                     <Map markers={markers} onToggleFavorite={toggleFavorite} />
                 </div>
-                <div className="Filters">
-                    filtros
-                </div>
-                <div id="beach-list" className="overflow-x-scroll lg:overflow-x-hidden w-full lg:w-1/3 flex flex-row lg:flex-col gap-[20px] pl-[20px] pb-[20px] xl:pl-0">
-                    <BeachList beaches={beaches} onImageLoad={handleImageLoad} onToggleFavorite={toggleFavorite} />
+                <div className="w-full lg:w-1/3  ">
+                    <div className="Filters pl-[20px] pr-[20px]">
+                        filtros
+                    </div>
+                    <div id="beach-list" className="overflow-x-scroll lg:overflow-x-hidden flex flex-row lg:flex-col gap-[20px] pl-[20px] pb-[20px] xl:pl-0">
+                        <BeachList beaches={beaches} onImageLoad={handleImageLoad} onToggleFavorite={toggleFavorite} />
+                    </div>
                 </div>
             </div>
 
