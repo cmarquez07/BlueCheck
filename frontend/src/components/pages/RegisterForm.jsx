@@ -107,7 +107,7 @@ export const RegisterForm = () => {
         <div className="w-90 lg:w-full max-w-xl mx-auto mt-2 p-6 bg-white shadow-lg rounded-xl">
             <div id="branding" className="flex flex-col items-center">
                 <Logo />
-                <h1 className="text-2xl lg:text-4xl text-blue-500 font-bold text-kaushan">BlueCheck</h1>
+                <h1 className="text-2xl lg:text-4xl text-[#007FD5] font-bold text-kaushan">BlueCheck</h1>
             </div>
             <h2 className="text-4xl text-center font-bold text-blue-700 mt-6 mb-6 text-kaushan">Crear una cuenta</h2>
 

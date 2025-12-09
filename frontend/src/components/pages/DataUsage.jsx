@@ -28,8 +28,8 @@ export const DataUsage = () => {
                     Si deseas más información sobre las fuentes de datos o los derechos de uso de iconos, puedes visitar:
                 </p>
                 <ul>
-                    <li><a href="https://aca.gencat.cat" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Agencia Catalana del Agua – Generalitat de Catalunya</a></li>
-                    <li><a href="https://www.flaticon.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Flaticon – Condiciones de uso</a></li>
+                    <li><a href="https://aca.gencat.cat" target="_blank" rel="noopener noreferrer" className="text-[#007FD5] underline">Agencia Catalana del Agua – Generalitat de Catalunya</a></li>
+                    <li><a href="https://www.flaticon.com" target="_blank" rel="noopener noreferrer" className="text-[#007FD5] underline">Flaticon – Condiciones de uso</a></li>
                 </ul>
             </div>
 
