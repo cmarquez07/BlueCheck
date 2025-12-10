@@ -49,7 +49,7 @@ export const Map = ({ markers, onToggleFavorite }) => {
             
             {markers.map(marker => (
                 <Marker key={marker.id} position={marker.position}>
-                    <Popup >
+                    <Popup>
                         <FavoriteButton isFavorite={marker.isFavorite} markerId={marker.id}/>
                         <Link to={`/beach/${marker.id}`}>
                             <img src={`https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${marker.imagen_url}`} alt={marker.nombre} className="w-full h-32 object-cover rounded-md mb-2" />
