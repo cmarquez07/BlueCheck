@@ -32,7 +32,7 @@ main .beach-card a {
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow) !important;
 }
 
-.filters .css-19qnlrw-MuiFormLabel-root-MuiInputLabel-root {
+.filters .MuiFormControl-root label {
     transform: translate(9px, 8px) scale(1);
 }
 
