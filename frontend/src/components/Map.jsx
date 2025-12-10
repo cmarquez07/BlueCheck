@@ -33,7 +33,7 @@ export const Map = ({ markers, onToggleFavorite }) => {
             <div className={`absolute top-[0] right-[0] ${isFavorite ? "favorite" : ""}`}>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
                     <Fab aria-label="Favorito" size="small" onClick={() => handleToggleFavorite(markerId)}>
-                        <FavoriteIcon />
+                        <FavoriteIcon className={`${beach.isFavorite ? "favoriteIcon" : ""}`} />
                     </Fab>
                 </Box>
             </div>
