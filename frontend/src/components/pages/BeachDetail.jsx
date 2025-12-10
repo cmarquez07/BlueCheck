@@ -66,7 +66,6 @@ export const BeachDetail = () => {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
     const token = localStorage.getItem("token");
-
     
     // Estado para el componente de las Tabs
     const [value, setValue] = useState(0);
@@ -77,13 +76,13 @@ export const BeachDetail = () => {
     };
 
     // Añadir o eliminar playa favorita
-    const toggleFavorite = async () => {
+    const toggleFavorite = async (beachId = id) => {
         if (!token) {
             toast.error("🪼Debes iniciar sesión para guardar la playa como favorita🪼");
             return;
         }
-        
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/toggle-favorite/${id}`, {
+        console.log(beachId)
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/toggle-favorite/${beachId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -93,9 +92,16 @@ export const BeachDetail = () => {
 
         const data = await response.json();
         
+        // Marcar o desmarcar la playa favorita, dependiendo del id que se envía
+        // (Si es la playa de la ficha, o de la lista de playas cercanas)
         setBeach(prev => ({
             ...prev,
-            isFavorite: data.favorite
+            isFavorite: data.favorite,
+            nearbyBeaches: prev.nearbyBeaches?.map(nb => 
+                nb.id === beachId
+                    ? { ...nb, isFavorite: data.favorite}
+                    : nb
+            )
         }));
 
         if (data.favorite) {
@@ -127,7 +133,6 @@ export const BeachDetail = () => {
                 const reportsData = await reportsResponse.json();
                 setReports(reportsData);
             } catch (err) {
-                console.error("Error al cargar los datos de la playa", err);
                 toast.error("🚩Error al cargar los datos🚩");
             }
 
@@ -137,7 +142,6 @@ export const BeachDetail = () => {
 
         fetchData();
     }, [id]);
-
 
     return (
         <>
@@ -166,8 +170,8 @@ export const BeachDetail = () => {
                                 <Link onClick={notLoggedMessage}><AddIcon /></Link>
                             )}
                         </Fab>
-                        <Fab aria-label="like" size="small" onClick={toggleFavorite}>
-                            <FavoriteIcon />
+                        <Fab aria-label="like" size="small" onClick={() => toggleFavorite(id)}>
+                            <FavoriteIcon className={`${beach.isFavorite ? "favoriteIcon" : ""}`} />
                         </Fab>
                     </Box>
                 </div>
@@ -293,7 +297,7 @@ export const BeachDetail = () => {
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
                     <div className="flex flex-col lg:grid lg:grid-cols-3 group">
-                        <BeachList beaches={beach.nearbyBeaches}/>
+                        <BeachList beaches={beach.nearbyBeaches} onToggleFavorite={toggleFavorite}/>
                     </div>
                 </CustomTabPanel>
 

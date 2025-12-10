@@ -25,7 +25,7 @@ export const DataUsage = () => {
                 <br/>
 
                 <p className="text-gray-500">
-                    Si deseas más información sobre las fuentes de datos o los derechos de uso de iconos, puedes visitar:
+                    Si deseas más información sobre las fuentes de datos o los derechos de uso, puedes visitar:
                 </p>
                 <ul>
                     <li><a href="https://aca.gencat.cat" target="_blank" rel="noopener noreferrer" className="text-[#007FD5] underline">Agencia Catalana del Agua – Generalitat de Catalunya</a></li>
