@@ -146,8 +146,8 @@ export const BeachDetail = () => {
                     ),
                  url(https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/uploads/fotos/${beach?.playa?.imatgesPlatja?.[0]?.url})`,
             }}>
-                <h1 className="text-4xl text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.nombre}</h1>
-                <h2 className="text-2xl text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.municipio}</h2>
+                <h1 className="text-4xl text-shadow-md text-shadow-black text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.nombre}</h1>
+                <h2 className="text-2xl text-shadow-md text-shadow-black text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan">{beach?.playa?.municipio}</h2>
                 <p className='text-xs text-white'>
                     {beach?.playa?.descripcioPlatja}
                 </p>
