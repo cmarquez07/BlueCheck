@@ -71,10 +71,12 @@ export const BeachDetail = () => {
     // Estado para el componente de las Tabs
     const [value, setValue] = useState(0);
 
+    // Manejar componente de pestañas
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    // Añadir o eliminar playa favorita
     const toggleFavorite = async () => {
         if (!token) {
             toast.error("🪼Debes iniciar sesión para guardar la playa como favorita🪼");
@@ -102,6 +104,10 @@ export const BeachDetail = () => {
         } else {
             toast.success("🌊Se ha eliminado la playa de favoritos🌊");
         }
+    }
+
+    const notLoggedMessage = () => {
+        toast.error("🪼Debes iniciar sesión para enviar un reporte🪼")
     }
 
     useEffect(() => {
@@ -154,7 +160,11 @@ export const BeachDetail = () => {
                 <div className="absolute top-[0] right-[0]">
                     <Box sx={{ '& > :not(style)': { m: 1 } }}>
                         <Fab color="primary" aria-label="add" size="small">
-                            <Link to={`/beach/${beach?.playa?.id}/sendreport`}><AddIcon /></Link>
+                            {token ? (
+                                <Link to={`/beach/${beach?.playa?.id}/sendreport`}><AddIcon /></Link>
+                            ) : (
+                                <Link onClick={notLoggedMessage}><AddIcon /></Link>
+                            )}
                         </Fab>
                         <Fab aria-label="like" size="small" onClick={toggleFavorite}>
                             <FavoriteIcon />
