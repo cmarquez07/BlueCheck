@@ -52,7 +52,7 @@ export const Header = () => {
   }
 
   return (
-    <AppBar position='static' sx={{ backgroundColor: '#002C66' }}>
+    <AppBar position='static' sx={{ backgroundColor: '#1447e6' }}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Link to='/'>

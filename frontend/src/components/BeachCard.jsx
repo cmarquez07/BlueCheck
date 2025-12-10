@@ -33,10 +33,10 @@ export const BeachCard = ({beach, onImageLoad, onToggleFavorite}) => {
                     <div className="flex justify-between flex">
                         <div className="w-65">
                             <h1 className="text-xl lg:text-2xl font-semibold text-[#007FD5] leading-tight text-kaushan">{beach?.nombre}</h1>
-                            <h2 className="text-md lg:text-xl text-[#007FD5] font-bold text-kaushan mb-[10px] text-kaushan mt-1">{beach?.municipio}</h2>
+                            <h2 className="text-md lg:text-xl text-[#007FD5] font-bold text-kaushan  text-kaushan mt-1">{beach?.municipio}</h2>
                         </div>
                         {beach?.distance && (
-                            <span className="text-sm text-[#007FD5] font-semibold w-30 text-right pl-[10px]">📍 A {beach.distance} Km</span>
+                            <span className="text-sm text-[#007FD5] font-semibold w-35 text-right pl-[10px]">📍 A {beach.distance} Km</span>
                         )}
                     </div>
 
@@ -44,7 +44,7 @@ export const BeachCard = ({beach, onImageLoad, onToggleFavorite}) => {
 
                     
 
-                    <div className="flex justify-between mt-4">
+                    <div className="flex justify-between mt-2">
                         {/* Jellyfish status icon */}
                         <div className="flex items-center gap-1">
                             <Icon src="jellyfish.png" filter={beach?.medusas?.color} width="w-[30px]" height="w-[30px]" alt={beach?.medusas?.text}/>
