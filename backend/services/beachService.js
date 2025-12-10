@@ -79,7 +79,7 @@ export const getBeachDetail = async (userId, id) => {
     const nearbyIds = await getNearbyBeaches(id);
     const allBeaches = await getBeachList();
 
-    const nearbyBeaches = allBeaches.filter(b => nearbyIds.some(n => n.beach_id === b.id))
+    const nearby = allBeaches.filter(b => nearbyIds.some(n => n.beach_id === b.id))
         .map(beach => {
             const nearbyBeach = nearbyIds.find(n => n.beach_id === beach.id);
             return {
@@ -88,6 +88,20 @@ export const getBeachDetail = async (userId, id) => {
                 distance: nearbyBeach.distance
             };
         });
+
+    let favoriteIds = [];
+    if (userId) {
+        const favorites = await pool.query(
+            `SELECT beach_id FROM favorites WHERE user_id = $1`,
+            [userId]
+        );
+        favoriteIds = favorites.rows.map(f => f.beach_id)
+    }
+
+    const nearbyBeaches = nearby.map(beach => ({
+        ...beach,
+        isFavorite: favoriteIds.includes(beach.id)
+    }))
 
     const result = {
         calidadPlaya,

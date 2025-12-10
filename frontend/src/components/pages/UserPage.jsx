@@ -96,7 +96,6 @@ export const UserPage = () => {
         const favoritesData = await favoritesResponse.json();
         setFavorites(favoritesData);
       } catch (err) {
-        console.error("Error al cargar los datos de la playa", err);
         toast.error("🚩Error al cargar los datos🚩");
       }
 
