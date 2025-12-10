@@ -96,7 +96,7 @@ export const BeachDetail = () => {
         // (Si es la playa de la ficha, o de la lista de playas cercanas)
         setBeach(prev => ({
             ...prev,
-            isFavorite: data.favorite,
+            isFavorite: beachId === id ? data.favorite : prev.isFavorite,
             nearbyBeaches: prev.nearbyBeaches?.map(nb => 
                 nb.id === beachId
                     ? { ...nb, isFavorite: data.favorite}
