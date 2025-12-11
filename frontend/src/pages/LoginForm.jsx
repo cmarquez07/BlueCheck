@@ -101,22 +101,26 @@ export const LoginForm = () => {
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Nombre de usuario o correo electrónico</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="identifier">Nombre de usuario o correo electrónico</label>
                     <input
+                        id="identifier"
                         type="text"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("identifier")}
                     />
+                    {errors.identifier && <small className="text-red-500">{errors.identifier}</small>}
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Contraseña</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="password">Contraseña</label>
                     <input
+                        id="password"
                         type="password"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="••••••••"
                         onChange={update("password")}
                     />
+                    {errors.password && <small className="text-red-500">{errors.password}</small>}
                 </div>
 
                 <button type="submit" className="bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">

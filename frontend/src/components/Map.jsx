@@ -40,6 +40,7 @@ export const Map = ({ markers, onToggleFavorite }) => {
         );
     };
 
+    console.log(markers);
     return (
         <MapContainer center={DEFAULT_MAP_COORDS} zoom={DEFAULT_MAP_ZOOM} scrollWheelZoom={MAP_WHEEL_ZOOM}>
             <TileLayer
