@@ -19,7 +19,7 @@ export const Home = () => {
     });
 
     // Uso de debounce en los filtros para que se apliquen 200ms despues de cambiar el input
-    const [debouncedFilters] = useDebounce(filters, 300)
+    const [debouncedFilters] = useDebounce(filters, 500)
     
     const token = localStorage.getItem("token");
 

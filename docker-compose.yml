@@ -22,6 +22,7 @@ services:
       - "3001:5173"
     volumes:
       - ./frontend:/usr/src/app
+      - ./frontend/coverage:/usr/src/app/coverage
       - /usr/src/app/node_modules
     command: npm run dev
 
