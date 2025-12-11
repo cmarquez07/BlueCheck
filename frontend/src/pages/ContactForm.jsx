@@ -98,8 +98,9 @@ export const ContactForm = () => {
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Nombre completo</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="name">Nombre completo</label>
                     <input
+                        id="name"
                         type="text"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("name")}
@@ -108,8 +109,9 @@ export const ContactForm = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Email</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="email">Email</label>
                     <input
+                        id="email"
                         type="email"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("email")}

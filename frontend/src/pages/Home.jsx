@@ -168,7 +168,7 @@ export const Home = () => {
                             Limpiar filtros
                         </button>
                     </div>
-                    <div id="beach-list" className="overflow-x-scroll lg:overflow-x-hidden flex flex-row lg:flex-col gap-[20px] pl-[20px] pb-[20px] xl:pl-0 min-h-[270px]">
+                    <div id="beach-list" className="overflow-x-scroll lg:overflow-x-hidden flex flex-row lg:flex-col gap-[20px] pl-[20px] pb-[20px] xl:pl-0 min-h-[270px]" data-testid="beachlist">
                         <BeachList beaches={filteredBeaches} onImageLoad={handleImageLoad} onToggleFavorite={toggleFavorite} />
                     </div>
                 </div>
