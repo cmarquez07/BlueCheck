@@ -1,12 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
-import { Home } from '../components/pages/Home'
-import { LoginForm } from '../components/pages/LoginForm'
-import { RegisterForm } from '../components/pages/RegisterForm'
-import { BeachDetail } from '../components/pages/BeachDetail'
-import { ReportForm } from '../components/pages/ReportForm'
-import { UserPage } from '../components/pages/UserPage'
-import { ContactForm } from '../components/pages/ContactForm'
-import { DataUsage } from '../components/pages/DataUsage'
+import { Home } from '../pages/Home'
+import { LoginForm } from '../pages/LoginForm'
+import { RegisterForm } from '../pages/RegisterForm'
+import { BeachDetail } from '../pages/BeachDetail'
+import { ReportForm } from '../pages/ReportForm'
+import { UserPage } from '../pages/UserPage'
+import { ContactForm } from '../pages/ContactForm'
+import { DataUsage } from '../pages/DataUsage'
 
 
 export const AppRoutes = () => {

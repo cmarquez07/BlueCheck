@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Logo } from '../Logo';
+import { Logo } from '../components/Logo';
 import toast from 'react-hot-toast';
-import '../../styles/Auth.css';
-import { useAuth } from '../../context/AuthContext'
+import '../styles/Auth.css';
+import { useAuth } from '../context/AuthContext'
 
 const FORM_RULES = {
     identifier: [
