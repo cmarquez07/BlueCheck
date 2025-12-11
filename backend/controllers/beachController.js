@@ -39,16 +39,6 @@ export const getBeachReports = async(req, res) => {
     }
 };
 
-// Función para añadir la ubicacón de las playas.
-export const saveBeachLocations = async(req, res) => {
-    try {
-        const beach = await BeachService.saveBeachLocations();
-        res.json(beach);
-    } catch (err) {
-        res.status(500).json({ message: "🚩Error del servidor🚩"});
-    }
-};
-
 // Función para obtener playas cercanas
 export const getNearbyBeaches = async(req, res) => {
     try {
@@ -108,3 +98,13 @@ export const sendContactMessage = async (req, res) => {
         res.status(500).json({ ok: false, message: "🚩Error del servidor🚩"});
     }
 }
+
+// Función para añadir la ubicacón de las playas.
+export const saveBeachLocations = async(req, res) => {
+    try {
+        const beach = await BeachService.saveBeachLocations();
+        res.json(beach);
+    } catch (err) {
+        res.status(500).json({ message: "🚩Error del servidor🚩"});
+    }
+};
