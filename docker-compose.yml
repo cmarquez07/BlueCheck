@@ -118,8 +118,6 @@ services:
       - ./backend:/usr/src
     working_dir: /usr/src
       
-      
-  
 volumes:
   postgres_data:
   npm_data:
