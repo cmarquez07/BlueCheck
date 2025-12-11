@@ -138,7 +138,7 @@ describe("BeachCard Component", () => {
             beach: { ...beachMock, distance: "3.12"}
         });
 
-        expect(screen.getByText("📍 A 3.12 Km"))
+        expect(screen.getByText("📍 A 3.12 Km")).toBeInTheDocument();
     });
 
     test("No muestra la distancia si no existe", () => {
