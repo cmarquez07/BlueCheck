@@ -81,7 +81,6 @@ export const BeachDetail = () => {
             toast.error("🪼Debes iniciar sesión para guardar la playa como favorita🪼");
             return;
         }
-        console.log(beachId)
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/toggle-favorite/${beachId}`, {
             method: "POST",
             headers: {
