@@ -142,6 +142,7 @@ export const BeachDetail = () => {
         fetchData();
     }, [id]);
 
+    console.log(beach);
     return (
         <>
             <div id='beach-header' 
