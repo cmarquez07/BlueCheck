@@ -54,7 +54,7 @@ export const Header = () => {
   return (
     <AppBar position='static' sx={{ backgroundColor: '#1447e6' }}>
       <Container maxWidth='xl'>
-        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
+        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }} role="toolbar">
           <Link to='/'>
             <Logo/>
           </Link>

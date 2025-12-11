@@ -11,6 +11,7 @@ export const BeachReport = ({ report }) => {
         return map[color] || map.default;
     }
 
+    console.log(report);
     return (
         <article key={report.id} className="max-w-md w-full bg-white shadow-md rounded-2xl p-4 mb-4 border border-gray-100 ">
             <div className="flex items-start justify-between">

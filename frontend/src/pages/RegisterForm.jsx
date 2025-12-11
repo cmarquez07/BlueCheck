@@ -114,8 +114,9 @@ export const RegisterForm = () => {
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Email</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="email">Email</label>
                     <input
+                        id="email"
                         type="email"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("email")}
@@ -124,8 +125,9 @@ export const RegisterForm = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Nombre de usuario</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="username">Nombre de usuario</label>
                     <input
+                        id="username"
                         type="text"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("username")}
@@ -134,8 +136,9 @@ export const RegisterForm = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Nombre completo</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="name">Nombre completo</label>
                     <input
+                        id="name"
                         type="text"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         onChange={update("name")}
@@ -144,8 +147,9 @@ export const RegisterForm = () => {
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Contraseña</label>
+                    <label className="block text-sm text-gray-600 mb-1" htmlFor="password">Contraseña</label>
                     <input
+                        id="password"
                         type="password"
                         className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="••••••••"
