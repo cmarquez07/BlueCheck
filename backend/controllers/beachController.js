@@ -26,7 +26,6 @@ export const sendReport = async(req, res) => {
         const saved = await BeachService.sendReport(req.userId, req.body);
         res.json(saved.id);
     } catch (err) {
-        console.log("ERROR EN sendReport", err);
         res.status(500).json({ message: "🚩Error del servidor🚩"});
     }
 }
