@@ -13,6 +13,10 @@ export const getBeachList = async (userId) => {
 
     const data = await response.json();
 
+    if (!data.playas) {
+        throw new Error("Invalid response format: missing playas property");
+    }
+
     let favoriteIds = [];
     if (userId) {
         const favorites = await pool.query(
@@ -157,6 +161,11 @@ export const saveBeachLocations = async () => {
     }
 
     const data = await response.json();
+    
+    if (!data.playas) {
+        throw new Error("Invalid response format: missing playas property");
+    }
+    
     const beaches = data.playas.map(playa => ({
         id: playa.id,
         lon: playa.longitud,
