@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react'
-import { Icon } from '../icons/Icon';
+import { Icon } from '../components/icons/Icon';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -14,9 +14,9 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
-import { BeachList } from '../BeachList'
-import { Loader } from '../Loader';
-import { BeachReport } from '../BeachReport';
+import { BeachList } from '../components/BeachList'
+import { Loader } from '../components/Loader';
+import { BeachReport } from '../components/BeachReport';
 import toast from 'react-hot-toast';
 
 

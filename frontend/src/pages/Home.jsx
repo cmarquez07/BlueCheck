@@ -1,8 +1,8 @@
-import { Map } from '../Map';
-import { BeachList } from '../BeachList';
+import { Map } from '../components/Map';
+import { BeachList } from '../components/BeachList';
 import { useState, useEffect } from 'react';
-import '../../styles/Home.css';
-import { Loader } from '../Loader';
+import '../styles/Home.css';
+import { Loader } from '../components/Loader';
 import toast from 'react-hot-toast';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useDebounce } from 'use-debounce';

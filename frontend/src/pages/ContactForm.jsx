@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import "../../styles/Form.css";
-import { Logo } from '../Logo';
+import "../styles/Form.css";
+import { Logo } from '../components/Logo';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 

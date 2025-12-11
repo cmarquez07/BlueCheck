@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { Loader } from '../Loader';
-import { BeachReport } from '../BeachReport';
-import { BeachCard } from '../BeachCard';
+import { Loader } from '../components/Loader';
+import { BeachReport } from '../components/BeachReport';
+import { BeachCard } from '../components/BeachCard';
 import { useNavigate } from 'react-router-dom'
 
 
