@@ -57,6 +57,6 @@ main .beach-card a {
         height: calc(100dvh - 68.5px);
     }
     main #beach-list {
-        height: calc(100dvh - 68.5px);
+        height: calc(100dvh - 108.5px);
     }
 }
