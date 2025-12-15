@@ -1,3 +1,4 @@
+// Valores oficiales de la API de la Agencia Catalana del Agua
 const BEACH_TAGS = {
   _CALIDAD_: {
     parent: {
@@ -104,6 +105,8 @@ const BEACH_TAGS = {
   }
 };
 
+// Obtiene un valor aleatorio del objeto especificado.
+// El valor se obtiene aleatoriamente, pero siendo el mismo valor por día y playa
 export function randomizeValue(parent, id) {
   id = Number(id);
   
@@ -123,6 +126,7 @@ export function randomizeValue(parent, id) {
 
 }
 
+// Funciones para aleatorizar el valor obtenido
 function getDailySeed() {
   const today = new Date();
   const y = today.getFullYear();
@@ -142,6 +146,7 @@ function mulberry32(seed) {
     }
 }
 
+// Devuelve el objeto que coincide con los parámetros enviados (parent, value)
 export function searchBeachTag(parent, value) {
   const category = BEACH_TAGS[parent];
   if (!category) {
@@ -153,6 +158,7 @@ export function searchBeachTag(parent, value) {
   return result || null;
 }
 
+// Obtiene el rango de temperaturas en base a la temperatura exacta
 export function searchTemperature(temperature) {
   const category = BEACH_TAGS["_TEMPERATURAAGUA_"];
   if (!category) {

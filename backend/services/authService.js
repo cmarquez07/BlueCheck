@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { pool } from "../config/db.js"
 
-// User register
+// Registro de usuario
 export const register = async ({ email, password, username, name }) => {
     if (!email || !password || !username) {
         return res.status(400).json({ message: '🪼Faltan campos obligatorios🪼' });
@@ -37,13 +37,13 @@ export const register = async ({ email, password, username, name }) => {
     }
 };
 
-// User Login
+// Inicio de sesión
 export const login = async ({ identifier, password }) => {
     if (!identifier || !password) {
         throw { status: 400, message: "🪼Se deben rellenar todos los campos🪼" }
     }
 
-    // Check if the identifier is an email
+    // Comprueba si el identificador es email o nombre de usuario
     const isEmail = identifier.includes("@");
 
     const query = isEmail
@@ -58,13 +58,13 @@ export const login = async ({ identifier, password }) => {
 
     const user = result.rows[0];
 
-    // Check password
+    // Comprueba la contraseña
     const ok = await bcrypt.compare(password, user.password);
     if (!ok) {
         throw { status: 401, message: "🪼Usuario o contraseña incorrectos🪼" }
     }
 
-    // Create token
+    // Crea el token
     const token = jwt.sign(
         { id: user.id },
         process.env.JWT_SECRET,
@@ -82,7 +82,7 @@ export const login = async ({ identifier, password }) => {
     };
 };
 
-// Get user by ID
+// Recoger datos de usuario por ID
 export const getUser = async (id) => {
     const result = await pool.query(
         `SELECT id, email, username, name FROM users WHERE id = $1`,
@@ -98,6 +98,7 @@ export const getUser = async (id) => {
     return user;
 }
 
+// Actualizar el usuario
 export const updateUser = async (userId, { email, password, username, name }) => {
     let password_hash;
     if (password && password.trim() !== "") {
