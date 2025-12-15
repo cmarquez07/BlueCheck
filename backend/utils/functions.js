@@ -82,7 +82,7 @@ const BEACH_TAGS = {
       { name: "_ESTADOCIELO_7_", text: "Aguacero", value: "_7_", icon: "rainy.png" },
       { name: "_ESTADOCIELO_24_", text: "Aguacero con tormenta", value: "_24_", icon: "storm.png" },
       { name: "_ESTADOCIELO_13_", text: "Aguacero nieve", value: "_13_", icon: "snow.png" },
-      { name: "_ESTADOCIELO_8_", text: "Tormenta", value: "_18_", icon: "storm.png" },
+      { name: "_ESTADOCIELO_8_", text: "Tormenta", value: "_8_", icon: "storm.png" },
       { name: "_ESTADOCIELO_9_", text: "Tormenta granizo", value: "_9_", icon: "stormHail.png" },
       { name: "_ESTADOCIELO_10_", text: "Nieve", value: "_10_", icon: "snow.png" },
       { name: "_ESTADOCIELO_27_", text: "Nieve débil", value: "_27_", icon: "snow.png" },

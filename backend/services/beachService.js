@@ -22,6 +22,9 @@ export const getBeachList = async (userId) => {
         favoriteIds = favorites.rows.map(f => f.beach_id)
     }
     
+    // Se organizan los resultados en un objeto por cada playa, para enviar solamente los datos que se necesitan.
+    // Además, se generan datos aleatorios para el estado de las medusas y del agua, ya que 
+    // al estar fuera de temporada, no hay información oficial.
     const result = data.playas.map(playa => ({
         id: playa.id,
         nombre: playa.nombre,
