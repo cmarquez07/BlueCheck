@@ -31,9 +31,8 @@ describe("BeachService", () => {
                 })
             });
 
+            // Mockear la playa con id 1 como favorita para el usuario
             pool.query.mockResolvedValue({ rows: [{ beach_id: 1 }] });
-            utils.randomizeValue.mockReturnValue("random");
-            utils.searchBeachTag.mockReturnValue("cielo");
 
             const result = await BeachService.getBeachList(1);
 
@@ -42,7 +41,7 @@ describe("BeachService", () => {
             expect(result[1].isFavorite).toBe(true);
         });
 
-        test("lanza error si fetch falla", async () => {
+        test("Lanza error si el fetch falla", async () => {
             fetch.mockResolvedValue({ ok: false });
             await expect(BeachService.getBeachList()).rejects.toThrow(
                 "🪼Error al recibir los datos oficiales🪼"
@@ -80,15 +79,10 @@ describe("BeachService", () => {
                 .mockResolvedValueOnce({ ok: true, json: async () => beachDetailData })
                 .mockResolvedValueOnce({ ok: true, json: async () => beachListData });
 
-            // DB mocks
+            // Mocks de la base de datos
             pool.query
-                .mockResolvedValueOnce({ rows: [{ is_favorite: true }] }) // favorite
-                .mockResolvedValueOnce({ rows: [{ beach_id: 1, distance: 1 }] }) // nearby
-                .mockResolvedValueOnce({ rows: [{ beach_id: 1 }] }); // nearby favorites
-
-            utils.randomizeValue.mockReturnValue("random");
-            utils.searchBeachTag.mockReturnValue("cielo");
-            utils.searchTemperature.mockReturnValue("caliente");
+                .mockResolvedValueOnce({ rows: [{ is_favorite: true }] }) // Es favorita
+                .mockResolvedValueOnce({ rows: [{ beach_id: 1, distance: 1 }] }) // Playa cercana
 
             const result = await BeachService.getBeachDetail(1, 1);
 
@@ -130,15 +124,13 @@ describe("BeachService", () => {
 
     describe("toggleFavoriteBeach", () => {
         test("Marca la playa com favorita", async () => {
-            pool.query.mockResolvedValueOnce({ rows: [] }); // no existe
-            pool.query.mockResolvedValueOnce({}); // insert
+            pool.query.mockResolvedValueOnce({ rows: [] }); // Se mockea la playa como no favorita inicialmente
             const result = await BeachService.toggleFavoriteBeach(1, 2);
             expect(result.favorite).toBe(true);
         });
 
         test("Elimina la playa de favoritas", async () => {
-            pool.query.mockResolvedValueOnce({ rows: [1] }); // ya existe
-            pool.query.mockResolvedValueOnce({}); // delete
+            pool.query.mockResolvedValueOnce({ rows: [1] }); // Se mockea la playa como favorita inicialmente
             const result = await BeachService.toggleFavoriteBeach(1, 2);
             expect(result.favorite).toBe(false);
         });

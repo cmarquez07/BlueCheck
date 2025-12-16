@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { BeachList } from "./BeachList";
 import { vi } from "vitest";
 
-// Mock de BeachCard (Componente más sencillo para exponer el funcionamiento de BeachList)
+// Mockear BeachCard (Componente más sencillo para exponer el funcionamiento de BeachList)
 vi.mock("./BeachCard", () => ({
     BeachCard: ({ beach, onImageLoad, onToggleFavorite }) => (
         <div data-testid="beach-card-mock">

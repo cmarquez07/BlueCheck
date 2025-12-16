@@ -1,8 +1,9 @@
 // src/contexts/AuthContext.test.jsx
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { AuthProvider, useAuth } from "./AuthContext";
 
+// Mock de un componente de prueba para comprobar el AuthProvider
 const TestComponent = () => {
     const { isLoggedIn, login, logout } = useAuth();
 
@@ -31,7 +32,7 @@ describe("AuthProvider", () => {
     });
 
     test("Inicializa con isLoggedIn = true si hay token", () => {
-        localStorage.setItem("token", "existing-token");
+        localStorage.setItem("token", "real-token");
 
         render(
             <AuthProvider>
@@ -56,7 +57,7 @@ describe("AuthProvider", () => {
     });
 
     test("logout elimina token de localStorage y cambia isLoggedIn", () => {
-        localStorage.setItem("token", "existing-token");
+        localStorage.setItem("token", "real-token");
 
         render(
             <AuthProvider>

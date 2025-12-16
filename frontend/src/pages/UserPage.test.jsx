@@ -49,9 +49,9 @@ describe("UserPage", () => {
         const favoritesData = [{ id: 0, nombre: "Playa Gran" }];
 
         fetch
-            .mockResolvedValueOnce({ ok: true, json: async () => userData })   // get-user
-            .mockResolvedValueOnce({ ok: true, json: async () => reportsData }) // get-user-reports
-            .mockResolvedValueOnce({ ok: true, json: async () => favoritesData }); // get-user-favorites
+            .mockResolvedValueOnce({ ok: true, json: async () => userData })   // Fetch de get-user
+            .mockResolvedValueOnce({ ok: true, json: async () => reportsData }) // Fetch de get-user-reports
+            .mockResolvedValueOnce({ ok: true, json: async () => favoritesData }); // Fetch de get-user-favorites
 
         render(
             <MemoryRouter>
@@ -75,7 +75,7 @@ describe("UserPage", () => {
 
     });
 
-    test("navega al login si no hay token", async () => {
+    test("Navega al login si no hay token", async () => {
         localStorage.removeItem("token");
         render(
             <MemoryRouter>
@@ -88,7 +88,7 @@ describe("UserPage", () => {
         });
     });
 
-    test("muestra toast de error si falla fetch", async () => {
+    test("Muestra toast de error si falla fetch", async () => {
         fetch.mockRejectedValueOnce(new Error("Network Error"));
         render(
             <MemoryRouter>
@@ -101,12 +101,12 @@ describe("UserPage", () => {
         });
     });
 
-    test("valida campos del formulario", async () => {
+    test("Valida campos del formulario", async () => {
         const userData = { email: "", username: "", name: "", password: "" };
         fetch
-            .mockResolvedValueOnce({ ok: true, json: async () => userData })
-            .mockResolvedValueOnce({ ok: true, json: async () => [] })
-            .mockResolvedValueOnce({ ok: true, json: async () => [] });
+            .mockResolvedValueOnce({ ok: true, json: async () => userData }) // Fetch de get-user
+            .mockResolvedValueOnce({ ok: true, json: async () => [] }) // Fetch de get-user-reports
+            .mockResolvedValueOnce({ ok: true, json: async () => [] }); // Fetch de get-user-favorites
 
         render(
             <MemoryRouter>
@@ -125,14 +125,14 @@ describe("UserPage", () => {
         });
     });
 
-    test("llama a toast.promise al actualizar usuario correctamente", async () => {
-        const userData = { email: "a@b.com", username: "user", name: "User" };
+    test("Llama a toast.promise al actualizar usuario correctamente", async () => {
+        const userData = { email: "test@email.com", username: "user", name: "User" };
 
         fetch
-            .mockResolvedValueOnce({ ok: true, json: async () => userData })
-            .mockResolvedValueOnce({ ok: true, json: async () => [] })
-            .mockResolvedValueOnce({ ok: true, json: async () => [] })
-            .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) }); // update-user
+            .mockResolvedValueOnce({ ok: true, json: async () => userData }) // Fetch de get-user
+            .mockResolvedValueOnce({ ok: true, json: async () => [] }) // Fetch de get-user-reports
+            .mockResolvedValueOnce({ ok: true, json: async () => [] }) // Fetch de get-user-favorites
+            .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) }); // Fetch de update-user
 
         render(
             <MemoryRouter>

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { BeachReport } from "./BeachReport";
 
-// Mock de un reporte
+// Mockear un reporte
 const mockReport = {
     id: 1,
     beach_id: 0,

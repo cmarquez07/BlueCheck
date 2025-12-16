@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Header } from "./Header";
 
+// Mockear react-hot-toast
 vi.mock("react-hot-toast", () => ({
     default: {
         success: vi.fn(),
@@ -12,6 +13,7 @@ vi.mock("react-hot-toast", () => ({
 
 const mockLogout = vi.fn();
 
+// Simulamos que se ha iniciado sesión y el funcionamiento de logout
 vi.mock("../context/AuthContext", () => ({
     useAuth: () => ({
         isLoggedIn: true,
@@ -21,6 +23,7 @@ vi.mock("../context/AuthContext", () => ({
 
 const mockNavigate = vi.fn();
 
+// Mockear react-router-dom
 vi.mock("react-router-dom", async () => {
     const actual = await vi.importActual("react-router-dom");
     return {
@@ -46,7 +49,7 @@ describe("Header component", () => {
         expect(buttons.length).toBeGreaterThan(0);
     });
 
-    test("Muestra el botón Mi cuenta cuando está iniciado sesión", () => {
+    test("Muestra el botón Mi cuenta cuando ha iniciado sesión", () => {
         render(
             <MemoryRouter>
                 <Header />
