@@ -100,7 +100,7 @@ describe("Auth Service", () => {
                 name: "Usuario"
             };
 
-            const mockError = new Error("Database connection error");
+            const mockError = new Error("🚩Error del servidor🚩");
 
             bcrypt.hash.mockResolvedValue("hashed_password");
             pool.query.mockRejectedValue(mockError);
@@ -127,7 +127,7 @@ describe("Auth Service", () => {
                 password: "hashed_password"
             };
 
-            const mockToken = "fake-jwt-token";
+            const mockToken = "fakeToken";
 
             pool.query.mockResolvedValue({ rows: [mockUser] });
             bcrypt.compare.mockResolvedValue(true);
@@ -170,7 +170,7 @@ describe("Auth Service", () => {
                 password: "hashed_password"
             };
 
-            const mockToken = "fake-jwt-token";
+            const mockToken = "fakeToken";
 
             pool.query.mockResolvedValue({ rows: [mockUser] });
             bcrypt.compare.mockResolvedValue(true);

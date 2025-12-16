@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { RegisterForm } from "./RegisterForm";
 import toast from "react-hot-toast";
-import { vi, describe, it, beforeEach, expect } from "vitest";
+import { vi, describe, beforeEach, expect } from "vitest";
 
 // Mockear react-hot-toast
 vi.mock('react-hot-toast', () => {
