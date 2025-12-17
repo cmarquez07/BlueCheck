@@ -18,6 +18,7 @@ import { BeachList } from '../components/BeachList'
 import { Loader } from '../components/Loader';
 import { BeachReport } from '../components/BeachReport';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 
 
 // Funcines de componentes
@@ -65,7 +66,9 @@ export const BeachDetail = () => {
     const [beach, setBeach] = useState([]);
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
-    const token = localStorage.getItem("token");
+    
+    // Recoger el token del AuthContext
+    const { token } = useAuth();
     
     // Estado para el componente de las Tabs
     const [value, setValue] = useState(0);

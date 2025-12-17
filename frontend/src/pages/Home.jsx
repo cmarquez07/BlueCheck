@@ -6,6 +6,7 @@ import { Loader } from '../components/Loader';
 import toast from 'react-hot-toast';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useDebounce } from 'use-debounce';
+import { useAuth } from '../context/AuthContext';
 
 export const Home = () => {
     const [beaches, setBeaches] = useState([]);
@@ -18,10 +19,12 @@ export const Home = () => {
         jellyfish: ""
     });
 
+    // Recoger el token del AuthContext
+    const { token } = useAuth();
+
     // Uso de debounce en los filtros para que se apliquen 200ms despues de cambiar el input
     const [debouncedFilters] = useDebounce(filters, 500)
     
-    const token = localStorage.getItem("token");
 
     // Mantener el loader hasta que se hayan cargado 4 imágenes,
     // para evitar saltos en el contenido si cargan las imagenes un poco tarde
@@ -95,7 +98,7 @@ export const Home = () => {
         };
 
         fetchBeaches();
-    }, []);
+    }, [token]);
 
     // Filtros de búsqueda y marcadores
     useEffect(() => {
