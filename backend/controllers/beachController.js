@@ -105,6 +105,10 @@ export const saveBeachLocations = async(req, res) => {
         const beach = await BeachService.saveBeachLocations();
         res.json(beach);
     } catch (err) {
-        res.status(500).json({ message: "🚩Error del servidor🚩"});
+        console.error('ERROR REAL:', err);
+        res.status(500).json({
+            message: "🚩Error del servidor🚩",
+            error: err.message
+        });
     }
 };
