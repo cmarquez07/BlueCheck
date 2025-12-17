@@ -4,7 +4,7 @@ import { Loader } from '../components/Loader';
 import { BeachReport } from '../components/BeachReport';
 import { BeachCard } from '../components/BeachCard';
 import { useNavigate } from 'react-router-dom'
-
+import { useAuth } from '../context/AuthContext';
 
 const FORM_RULES = {
     name: [
