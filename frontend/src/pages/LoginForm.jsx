@@ -81,7 +81,7 @@ export const LoginForm = () => {
 
         toast.promise(loginPromise, {
             loading: "Iniciando sesión...",
-            success: (data) => `¡Bienvenido, ${data.user.username}!🌊`,
+            success: (data) => `¡Hola, ${data.user.username}!🌊`,
             error: (err) => err.message || "🚩Error inesperado🚩"
         })
         .then(() => {
