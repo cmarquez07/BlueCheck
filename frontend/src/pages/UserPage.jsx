@@ -67,7 +67,6 @@ export const UserPage = () => {
   // Pedir los datos del usuario
   useEffect(() => {
     if (!token) {
-      navigate("/");
       return;
     }
 
@@ -104,7 +103,7 @@ export const UserPage = () => {
     }
 
     fetchData();
-  }, []);
+  }, [token]);
 
   const updateField = (k) => (e) => {
     const value = e.target.value;
