@@ -99,7 +99,7 @@ export const sendContactMessage = async (req, res) => {
     }
 }
 
-// Función para añadir la ubicacón de las playas.
+// Función para añadir la ubicacón de las playas en la base de datos.
 export const saveBeachLocations = async(req, res) => {
     try {
         const beach = await BeachService.saveBeachLocations();

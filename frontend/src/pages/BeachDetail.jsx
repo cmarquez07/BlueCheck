@@ -67,8 +67,7 @@ export const BeachDetail = () => {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
     
-    // Recoger el token del AuthContext
-    const { token } = useAuth();
+    const token = localStorage.getItem("token");
     
     // Estado para el componente de las Tabs
     const [value, setValue] = useState(0);
@@ -143,7 +142,7 @@ export const BeachDetail = () => {
         }
 
         fetchData();
-    }, [id]);
+    }, [id, token]);
 
     console.log(beach);
     return (

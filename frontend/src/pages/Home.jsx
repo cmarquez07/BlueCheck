@@ -19,7 +19,9 @@ export const Home = () => {
         jellyfish: ""
     });
 
-    // Recoger el token del AuthContext
+    // Recoger el token del AuthContext para mantenerlo actualizado
+    // Util para que al cerrar sesión, se actualice el token automáticamente
+    // y recargue las playas para no mostrar las favoritas cuando ya no hay sesión
     const { token } = useAuth();
 
     // Uso de debounce en los filtros para que se apliquen 200ms despues de cambiar el input

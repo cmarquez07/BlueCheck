@@ -7,34 +7,33 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext';
 
 const FORM_RULES = {
-    name: [
-        v => !v.trim() && "El nombre es obligatorio",
-        v => v.trim().length < 3 && "El nombre debe tener al menos 3 carácteres"
-    ],
-    username: [
-        v => !v.trim() && "El nombre de usuario es obligatorio",
-        v => v.trim().length < 3 && "El nombre de usuario debe tener al menos 3 carácteres"
-    ],
-    email: [
-        v => !v && "El correo electrónico es obligatorio",
-        v => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) && "El formato del correo electrónico no es válido"
-    ],
-    password: [
-        v => v && v.length < 8 && "La contraseña debe tener al menos 8 carácteres",
-        v => v && !/[A-Z]/.test(v) && "Debe contener al menos una letra mayúscula",
-        v => v && !/[a-z]/.test(v) && "Debe contener al menos una letra minúscula",
-        v => v && !/[0-9]/.test(v) && "Debe contener al menos un número",
-        v => v && !/[!@#$%^&*(),.?":{}|<>_\-]/.test(v) && "Debe contener al menos un carácter especial"
-    ]
+  name: [
+    v => !v.trim() && "El nombre es obligatorio",
+    v => v.trim().length < 3 && "El nombre debe tener al menos 3 carácteres"
+  ],
+  username: [
+    v => !v.trim() && "El nombre de usuario es obligatorio",
+    v => v.trim().length < 3 && "El nombre de usuario debe tener al menos 3 carácteres"
+  ],
+  email: [
+    v => !v && "El correo electrónico es obligatorio",
+    v => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) && "El formato del correo electrónico no es válido"
+  ],
+  password: [
+    v => v && v.length < 8 && "La contraseña debe tener al menos 8 carácteres",
+    v => v && !/[A-Z]/.test(v) && "Debe contener al menos una letra mayúscula",
+    v => v && !/[a-z]/.test(v) && "Debe contener al menos una letra minúscula",
+    v => v && !/[0-9]/.test(v) && "Debe contener al menos un número",
+    v => v && !/[!@#$%^&*(),.?":{}|<>_\-]/.test(v) && "Debe contener al menos un carácter especial"
+  ]
 };
 
 export const UserPage = () => {
   const navigate = useNavigate();
-  
-  // Recoger el token del AuthContext
-  const { token } = useAuth();  
-  
-  const [user, setUser] = useState ({
+
+  const token = localStorage.getItem("token");
+
+  const [user, setUser] = useState({
     email: "",
     username: "",
     name: "",
@@ -103,7 +102,7 @@ export const UserPage = () => {
     }
 
     fetchData();
-  }, [token]);
+  }, []);
 
   const updateField = (k) => (e) => {
     const value = e.target.value;
@@ -112,30 +111,30 @@ export const UserPage = () => {
   };
 
   const validateForm = () => {
-        const newErrors = {};
-        Object.keys(user).forEach((key) => {
-            validateField(key, user[key]) || (newErrors[key] = true);
-        });
-        return Object.values(newErrors).length === 0;
-    };
+    const newErrors = {};
+    Object.keys(user).forEach((key) => {
+      validateField(key, user[key]) || (newErrors[key] = true);
+    });
+    return Object.values(newErrors).length === 0;
+  };
 
   const validateField = (key, value) => {
-        let message = "";
+    let message = "";
 
-        const validators = FORM_RULES[key];
-        if (validators) {
-            for (const test of validators) {
-                const error = test(value);
-                if (error) {
-                    message = error;
-                    break;
-                }
-            }
+    const validators = FORM_RULES[key];
+    if (validators) {
+      for (const test of validators) {
+        const error = test(value);
+        if (error) {
+          message = error;
+          break;
         }
+      }
+    }
 
-        setErrors(prev => ({ ...prev, [key]: message }));
-        return message === "";
-    };
+    setErrors(prev => ({ ...prev, [key]: message }));
+    return message === "";
+  };
 
   // Guardar cambios en el perfil
   const updateUser = async (e) => {
@@ -148,7 +147,7 @@ export const UserPage = () => {
 
     const updatePromise = fetch(`${import.meta.env.VITE_API_URL}/auth/update-user`, {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
@@ -168,10 +167,10 @@ export const UserPage = () => {
       success: (data) => `🌊Datos actualizados correctamente!🌊`,
       error: (err) => err.message || "🚩Error inesperado🚩"
     })
-    .catch(() => { })
+      .catch(() => { })
 
   }
-  
+
   return (
     <>
       {/* Formulario */}
@@ -216,7 +215,7 @@ export const UserPage = () => {
             </ul>
           )}
         </div>
-        
+
         {/* Mis reportes */}
         <div className="flex-1 p-6 bg-white shadow-lg rounded-xl mb-10">
           <h2 className="text-2xl font-bold text-blue-700 mb-4 text-kaushan">Mis Reportes</h2>

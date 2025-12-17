@@ -18,7 +18,7 @@ router.get("/get-user-reports/", authRequired, getReportsByUser);
 router.get("/get-user-favorites/", authRequired, getFavoritesByUser);
 router.post("/toggle-favorite/:beachId", authRequired, toggleFavoriteBeach);
 
-
+// Endpoint para insertar las localizaciones de las playas en la base de datos
 router.get("/insert-locations", saveBeachLocations);
 
 export default router;

@@ -38,8 +38,7 @@ export const ReportForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // Recoger el token del AuthContext
-    const { token } = useAuth();
+    const token = localStorage.getItem("token");
 
     const [form, setForm] = useState({
         beachId: id,

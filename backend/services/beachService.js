@@ -149,7 +149,8 @@ export const getBeachReports = async (beachId) => {
     return result.rows;
 }
 
-// Función para añadir la ubicacón de las playas.
+// Función para añadir la ubicacón de las playas en la base de datos.
+// Estas ubicaciones se utilizarán para calcular la distancia entre playas con PostGIS
 export const saveBeachLocations = async () => {
     const response = await fetch(
         "https://aplicacions.aca.gencat.cat/platgescat2/agencia-catalana-del-agua-backend/web/app.php/api/front/es"
