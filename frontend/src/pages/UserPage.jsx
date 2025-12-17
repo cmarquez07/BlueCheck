@@ -29,9 +29,10 @@ const FORM_RULES = {
 };
 
 export const UserPage = () => {
-  const token = localStorage.getItem("token");
-  
   const navigate = useNavigate();
+  
+  // Recoger el token del AuthContext
+  const { token } = useAuth();  
   
   const [user, setUser] = useState ({
     email: "",

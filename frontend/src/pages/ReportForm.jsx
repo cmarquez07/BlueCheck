@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Loader } from '../components/Loader';
+import { useAuth } from '../context/AuthContext';
 
 const FORM_RULES = {
     waterStatus: [
@@ -33,10 +34,12 @@ const FORM_RULES = {
 
 export const ReportForm = () => {
     const { id } = useParams();
-    const token = localStorage.getItem("token");
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    // Recoger el token del AuthContext
+    const { token } = useAuth();
 
     const [form, setForm] = useState({
         beachId: id,
