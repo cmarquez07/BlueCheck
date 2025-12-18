@@ -93,30 +93,32 @@ services:
       - sonar_postgres_data:/var/lib/postgresql
 
   ## Sonar Scanner Frontend ##
-  sonar-frontend:
-    image: sonarsource/sonar-scanner-cli
-    container_name: bluecheck-sonar-frontend
-    depends_on:
-      - sonarqube
-    environment:
-      SONAR_HOST_URL: http://sonarqube:9000
-      SONAR_TOKEN: ${SONAR_TOKEN}
-    volumes:
-      - ./frontend:/usr/src
-    working_dir: /usr/src
+  ## Descomentar en caso de querer ejecutar los análisis
+  # sonar-frontend:
+  #   image: sonarsource/sonar-scanner-cli
+  #   container_name: bluecheck-sonar-frontend
+  #   depends_on:
+  #     - sonarqube
+  #   environment:
+  #     SONAR_HOST_URL: http://sonarqube:9000
+  #     SONAR_TOKEN: ${SONAR_TOKEN}
+  #   volumes:
+  #     - ./frontend:/usr/src
+  #   working_dir: /usr/src
   
   ## Sonar Scanner Backend ##
-  sonar-backend:
-    image: sonarsource/sonar-scanner-cli
-    container_name: bluecheck-sonar-backend
-    depends_on:
-      - sonarqube
-    environment:
-      SONAR_HOST_URL: http://sonarqube:9000
-      SONAR_TOKEN: ${SONAR_TOKEN}
-    volumes:
-      - ./backend:/usr/src
-    working_dir: /usr/src
+  ## Descomentar en caso de querer ejecutar los análisis
+  # sonar-backend:
+  #   image: sonarsource/sonar-scanner-cli
+  #   container_name: bluecheck-sonar-backend
+  #   depends_on:
+  #     - sonarqube
+  #   environment:
+  #     SONAR_HOST_URL: http://sonarqube:9000
+  #     SONAR_TOKEN: ${SONAR_TOKEN}
+  #   volumes:
+  #     - ./backend:/usr/src
+  #   working_dir: /usr/src
       
 volumes:
   postgres_data:
