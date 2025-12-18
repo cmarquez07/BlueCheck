@@ -12,6 +12,13 @@ vi.mock("react-hot-toast", () => ({
     }
 }));
 
+// Mockear AuthContext
+vi.mock('../context/AuthContext', () => ({
+  useAuth: () => ({
+    token: null,
+  }),
+}));
+
 // Mockear playas
 const mockBeaches = [
     { id: 1, nombre: "Playa Gran", municipio: "Portbou", latitud: "25.10", longitud: "10.12", imagen_url: "playa-gran.png", medusas: { text: "Sin presencia de medusas" }, isFavorite: false },
