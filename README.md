@@ -10,7 +10,7 @@ BlueCheck ofrece una plataforma colaborativa en la que poder consultar el estado
 
 ### Requisitos previos
 
-Antes de comenzar con la instalación de la aplicación en local, será necesario tener instalados **Docker** y **Docker Compose**. Para hacerlo en Windows, con instalar **Docker Desktop** es suficiente.
+Antes de comenzar con la instalación de la aplicación en local, será necesario tener instalados **Docker** y **Docker Compose**. Para hacerlo, con instalar **Docker Desktop** es suficiente.
 
 Para instalarlo, se debe seguir la documentación oficial:
 
